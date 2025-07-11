@@ -11,6 +11,10 @@ endif
 # (this disables dependency generation if multiple architectures are set)
 DEPFLAGS := $(if $(word 2, $(TARGET_ARCH)), , -MMD)
 
+ifndef PKG_CONFIG
+  PKG_CONFIG=pkg-config
+endif
+
 ifndef STRIP
   STRIP=strip
 endif
@@ -35,15 +39,15 @@ ifeq ($(CONFIG),Debug)
     TARGET_ARCH := 
   endif
 
-  JUCE_CPPFLAGS := $(DEPFLAGS) "-DLINUX=1" "-DDEBUG=1" "-D_DEBUG=1" "-DJUCER_LINUX_MAKE_5ED3B373=1" "-DJUCE_APP_VERSION=1.0.1" "-DJUCE_APP_VERSION_HEX=0x10001" $(shell pkg-config --cflags alsa freetype2 libcurl webkit2gtk-4.0 gtk+-x11-3.0) -pthread -I../JuceLibraryCode -I$(HOME)/JUCE/modules $(CPPFLAGS)
-  JUCE_CPPFLAGS_APP :=  "-DJucePlugin_Build_VST=0" "-DJucePlugin_Build_VST3=0" "-DJucePlugin_Build_AU=0" "-DJucePlugin_Build_AUv3=0" "-DJucePlugin_Build_RTAS=0" "-DJucePlugin_Build_AAX=0" "-DJucePlugin_Build_Standalone=0" "-DJucePlugin_Build_Unity=0"
+  JUCE_CPPFLAGS := $(DEPFLAGS) "-DLINUX=1" "-DDEBUG=1" "-D_DEBUG=1" "-DJUCER_LINUX_MAKE_5ED3B373=1" "-DJUCE_APP_VERSION=1.0.1" "-DJUCE_APP_VERSION_HEX=0x10001" $(shell $(PKG_CONFIG) --cflags $(shell ($(PKG_CONFIG) --exists webkit2gtk-4.1 && echo webkit2gtk-4.1) || echo webkit2gtk-4.0) alsa freetype2 fontconfig libcurl gtk+-x11-3.0) -pthread -I../JuceLibraryCode -I$(HOME)/JUCE/modules $(CPPFLAGS)
+  JUCE_CPPFLAGS_APP :=  "-DJucePlugin_Build_VST=0" "-DJucePlugin_Build_VST3=0" "-DJucePlugin_Build_AU=0" "-DJucePlugin_Build_AUv3=0" "-DJucePlugin_Build_AAX=0" "-DJucePlugin_Build_Standalone=0" "-DJucePlugin_Build_Unity=0" "-DJucePlugin_Build_LV2=0"
   JUCE_TARGET_APP := Codetta
 
   JUCE_CFLAGS += $(JUCE_CPPFLAGS) $(TARGET_ARCH) -g -ggdb -O0 -s USE_PTHREADS=1 -s USE_FREETYPE=1 -s DISABLE_EXCEPTION_CATCHING=0 $(CFLAGS)
   JUCE_CXXFLAGS += $(JUCE_CFLAGS) -std=c++17 $(CXXFLAGS)
-  JUCE_LDFLAGS += $(TARGET_ARCH) -L$(JUCE_BINDIR) -L$(JUCE_LIBDIR) $(shell pkg-config --libs alsa freetype2 libcurl) -fvisibility=hidden -s USE_PTHREADS=1 -s USE_FREETYPE=1 -s DISABLE_EXCEPTION_CATCHING=0 -s LLD_REPORT_UNDEFINED  -s PROXY_TO_PTHREAD=1 -s PTHREAD_POOL_SIZE=20 -s TOTAL_MEMORY=256MB -s NO_EXIT_RUNTIME -s EXPORTED_FUNCTIONS="['_main', '_juce_animationFrameCallback', '_juce_mouseCallback', '_juce_keyboardCallback', '_juce_inputCallback', '_rtmidi_onMidiMessageProc']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']" --preload-file ../../libs/juce_emscripten/examples/usr/X11R6/lib/X11/fonts/@/usr/X11R6/lib/X11/fonts/ --emrun -lrt -ldl -lpthread -lopenal $(LDFLAGS)
+  JUCE_LDFLAGS += $(TARGET_ARCH) -L$(JUCE_BINDIR) -L$(JUCE_LIBDIR) $(shell $(PKG_CONFIG) --libs alsa freetype2 fontconfig libcurl) -fvisibility=hidden -s USE_PTHREADS=1 -s USE_FREETYPE=1 -s DISABLE_EXCEPTION_CATCHING=0 -s LLD_REPORT_UNDEFINED  -s PROXY_TO_PTHREAD=1 -s PTHREAD_POOL_SIZE=20 -s TOTAL_MEMORY=256MB -s NO_EXIT_RUNTIME -s EXPORTED_FUNCTIONS="['_main', '_juce_animationFrameCallback', '_juce_mouseCallback', '_juce_keyboardCallback', '_juce_inputCallback', '_rtmidi_onMidiMessageProc']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']" --preload-file ../../libs/juce_emscripten/examples/usr/X11R6/lib/X11/fonts/@/usr/X11R6/lib/X11/fonts/ --emrun -lrt -ldl -lpthread -lopenal $(LDFLAGS)
 
-  CLEANCMD = rm -rf $(JUCE_OUTDIR)/$(TARGET) $(JUCE_OBJDIR)
+  CLEANCMD = rm -rf $(JUCE_OUTDIR)/$(JUCE_TARGET_APP) $(JUCE_OBJDIR)
 endif
 
 ifeq ($(CONFIG),Release)
@@ -56,15 +60,15 @@ ifeq ($(CONFIG),Release)
     TARGET_ARCH := 
   endif
 
-  JUCE_CPPFLAGS := $(DEPFLAGS) "-DLINUX=1" "-DNDEBUG=1" "-DJUCER_LINUX_MAKE_5ED3B373=1" "-DJUCE_APP_VERSION=1.0.1" "-DJUCE_APP_VERSION_HEX=0x10001" $(shell pkg-config --cflags alsa freetype2 libcurl webkit2gtk-4.0 gtk+-x11-3.0) -pthread -I../JuceLibraryCode -I$(HOME)/JUCE/modules $(CPPFLAGS)
-  JUCE_CPPFLAGS_APP :=  "-DJucePlugin_Build_VST=0" "-DJucePlugin_Build_VST3=0" "-DJucePlugin_Build_AU=0" "-DJucePlugin_Build_AUv3=0" "-DJucePlugin_Build_RTAS=0" "-DJucePlugin_Build_AAX=0" "-DJucePlugin_Build_Standalone=0" "-DJucePlugin_Build_Unity=0"
+  JUCE_CPPFLAGS := $(DEPFLAGS) "-DLINUX=1" "-DNDEBUG=1" "-DJUCER_LINUX_MAKE_5ED3B373=1" "-DJUCE_APP_VERSION=1.0.1" "-DJUCE_APP_VERSION_HEX=0x10001" $(shell $(PKG_CONFIG) --cflags $(shell ($(PKG_CONFIG) --exists webkit2gtk-4.1 && echo webkit2gtk-4.1) || echo webkit2gtk-4.0) alsa freetype2 fontconfig libcurl gtk+-x11-3.0) -pthread -I../JuceLibraryCode -I$(HOME)/JUCE/modules $(CPPFLAGS)
+  JUCE_CPPFLAGS_APP :=  "-DJucePlugin_Build_VST=0" "-DJucePlugin_Build_VST3=0" "-DJucePlugin_Build_AU=0" "-DJucePlugin_Build_AUv3=0" "-DJucePlugin_Build_AAX=0" "-DJucePlugin_Build_Standalone=0" "-DJucePlugin_Build_Unity=0" "-DJucePlugin_Build_LV2=0"
   JUCE_TARGET_APP := Codetta
 
   JUCE_CFLAGS += $(JUCE_CPPFLAGS) $(TARGET_ARCH) -O3 -s USE_PTHREADS=1 -s USE_FREETYPE=1 -s DISABLE_EXCEPTION_CATCHING=0 $(CFLAGS)
   JUCE_CXXFLAGS += $(JUCE_CFLAGS) -std=c++17 $(CXXFLAGS)
-  JUCE_LDFLAGS += $(TARGET_ARCH) -L$(JUCE_BINDIR) -L$(JUCE_LIBDIR) $(shell pkg-config --libs alsa freetype2 libcurl) -fvisibility=hidden -s USE_PTHREADS=1 -s USE_FREETYPE=1 -s DISABLE_EXCEPTION_CATCHING=0 -s LLD_REPORT_UNDEFINED  -s PROXY_TO_PTHREAD=1 -s PTHREAD_POOL_SIZE=20 -s TOTAL_MEMORY=256MB -s NO_EXIT_RUNTIME -s EXPORTED_FUNCTIONS="['_main', '_juce_animationFrameCallback', '_juce_mouseCallback', '_juce_keyboardCallback', '_juce_inputCallback', '_rtmidi_onMidiMessageProc']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']" --preload-file ../../libs/juce_emscripten/examples/usr/X11R6/lib/X11/fonts/@/usr/X11R6/lib/X11/fonts/ --emrun -lrt -ldl -lpthread -lopenal $(LDFLAGS)
+  JUCE_LDFLAGS += $(TARGET_ARCH) -L$(JUCE_BINDIR) -L$(JUCE_LIBDIR) $(shell $(PKG_CONFIG) --libs alsa freetype2 fontconfig libcurl) -fvisibility=hidden -s USE_PTHREADS=1 -s USE_FREETYPE=1 -s DISABLE_EXCEPTION_CATCHING=0 -s LLD_REPORT_UNDEFINED  -s PROXY_TO_PTHREAD=1 -s PTHREAD_POOL_SIZE=20 -s TOTAL_MEMORY=256MB -s NO_EXIT_RUNTIME -s EXPORTED_FUNCTIONS="['_main', '_juce_animationFrameCallback', '_juce_mouseCallback', '_juce_keyboardCallback', '_juce_inputCallback', '_rtmidi_onMidiMessageProc']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']" --preload-file ../../libs/juce_emscripten/examples/usr/X11R6/lib/X11/fonts/@/usr/X11R6/lib/X11/fonts/ --emrun -lrt -ldl -lpthread -lopenal $(LDFLAGS)
 
-  CLEANCMD = rm -rf $(JUCE_OUTDIR)/$(TARGET) $(JUCE_OBJDIR)
+  CLEANCMD = rm -rf $(JUCE_OUTDIR)/$(JUCE_TARGET_APP) $(JUCE_OBJDIR)
 endif
 
 OBJECTS_APP := \
@@ -108,12 +112,17 @@ OBJECTS_APP := \
   $(JUCE_OBJDIR)/include_juce_audio_devices_a5008791.o \
   $(JUCE_OBJDIR)/include_juce_audio_formats_57e78a90.o \
   $(JUCE_OBJDIR)/include_juce_audio_processors_4e18d77.o \
+  $(JUCE_OBJDIR)/include_juce_audio_processors_ara_f0d9d588.o \
+  $(JUCE_OBJDIR)/include_juce_audio_processors_lv2_libs_620ed617.o \
   $(JUCE_OBJDIR)/include_juce_audio_utils_ac367525.o \
   $(JUCE_OBJDIR)/include_juce_core_9b13c06c.o \
+  $(JUCE_OBJDIR)/include_juce_core_CompilationTime_58e4dabd.o \
   $(JUCE_OBJDIR)/include_juce_cryptography_12f98f39.o \
   $(JUCE_OBJDIR)/include_juce_data_structures_f830b4b2.o \
   $(JUCE_OBJDIR)/include_juce_events_29769ee6.o \
   $(JUCE_OBJDIR)/include_juce_graphics_2525d958.o \
+  $(JUCE_OBJDIR)/include_juce_graphics_Harfbuzz_f0ceb6b1.o \
+  $(JUCE_OBJDIR)/include_juce_graphics_Sheenbidi_b731ee5e.o \
   $(JUCE_OBJDIR)/include_juce_gui_basics_567cf56.o \
   $(JUCE_OBJDIR)/include_juce_gui_extra_e29f2629.o \
 
@@ -121,254 +130,289 @@ OBJECTS_APP := \
 
 all : $(JUCE_OUTDIR)/$(JUCE_TARGET_APP)
 
-$(JUCE_OUTDIR)/$(JUCE_TARGET_APP) : $(OBJECTS_APP) $(RESOURCES)
-	@command -v pkg-config >/dev/null 2>&1 || { echo >&2 "pkg-config not installed. Please, install it."; exit 1; }
-	@pkg-config --print-errors alsa freetype2 libcurl
+$(JUCE_OUTDIR)/$(JUCE_TARGET_APP) : $(OBJECTS_APP) $(JUCE_OBJDIR)/execinfo.cmd $(RESOURCES)
+	@command -v $(PKG_CONFIG) >/dev/null 2>&1 || { echo >&2 "pkg-config not installed. Please, install it."; exit 1; }
+	@$(PKG_CONFIG) --print-errors alsa freetype2 fontconfig libcurl
 	@echo Linking "Codetta - App"
 	-$(V_AT)mkdir -p $(JUCE_BINDIR)
 	-$(V_AT)mkdir -p $(JUCE_LIBDIR)
 	-$(V_AT)mkdir -p $(JUCE_OUTDIR)
-	$(V_AT)$(CXX) -o $(JUCE_OUTDIR)/$(JUCE_TARGET_APP) $(OBJECTS_APP) $(JUCE_LDFLAGS) $(JUCE_LDFLAGS_APP) $(RESOURCES) $(TARGET_ARCH)
+	$(V_AT)$(CXX) -o $(JUCE_OUTDIR)/$(JUCE_TARGET_APP) $(OBJECTS_APP) $(JUCE_LDFLAGS) $(shell cat $(JUCE_OBJDIR)/execinfo.cmd) $(JUCE_LDFLAGS_APP) $(RESOURCES) $(TARGET_ARCH)
 
 $(JUCE_OBJDIR)/SingleSampleSynth_c527fd2e.o: ../Source/audio/synth/SingleSampleSynth.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling SingleSampleSynth.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/Audio_f49537cd.o: ../Source/audio/Audio.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling Audio.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/CodettaAudioSource_182da550.o: ../Source/audio/CodettaAudioSource.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling CodettaAudioSource.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/MidiEventList_2218cdae.o: ../Source/audio/MidiEventList.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling MidiEventList.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/MidiOut_889fa464.o: ../Source/audio/MidiOut.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling MidiOut.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/PlaybackSettings_ca144d91.o: ../Source/audio/PlaybackSettings.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling PlaybackSettings.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/BlockGUI_85116138.o: ../Source/libs/juckly/block/BlockGUI.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling BlockGUI.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/BlockManipulator_4de9de2b.o: ../Source/libs/juckly/block/BlockManipulator.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling BlockManipulator.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/BlockParamHole_dddae7ea.o: ../Source/libs/juckly/block/BlockParamHole.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling BlockParamHole.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/Block_5017edd1.o: ../Source/libs/juckly/client/Block.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling Block.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/Toolbox_398bebb7.o: ../Source/libs/juckly/client/Toolbox.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling Toolbox.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/Workspace_7659b259.o: ../Source/libs/juckly/client/Workspace.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling Workspace.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/IDTracker_7444cbab.o: ../Source/libs/juckly/toolbar/IDTracker.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling IDTracker.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/JucklyToolbarItemFactory_73fd7db8.o: ../Source/libs/juckly/toolbar/JucklyToolbarItemFactory.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling JucklyToolbarItemFactory.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/ToolbarBlockIcon_1f109ac7.o: ../Source/libs/juckly/toolbar/ToolbarBlockIcon.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling ToolbarBlockIcon.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/DoubleQuaver_8ae8dfe3.o: ../Source/libs/MusicSync-Notation-Engine/Fragments/DoubleQuaver.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling DoubleQuaver.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/NoteFragmentPicker_8d374abc.o: ../Source/libs/MusicSync-Notation-Engine/Fragments/NoteFragmentPicker.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling NoteFragmentPicker.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/Bar_60bd39fd.o: ../Source/libs/MusicSync-Notation-Engine/Bar.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling Bar.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/Note_8067d392.o: ../Source/libs/MusicSync-Notation-Engine/Note.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling Note.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/DataLogger_c81129f0.o: ../Source/data-logger/DataLogger.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling DataLogger.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/BPMWidget_4abe227f.o: ../Source/gui/widgets/BPMWidget.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling BPMWidget.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/InfoBar_7ede92c1.o: ../Source/gui/widgets/InfoBar.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling InfoBar.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/MenuBar_4d46e8f0.o: ../Source/gui/widgets/MenuBar.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling MenuBar.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/PlayBackControls_b805221f.o: ../Source/gui/widgets/PlayBackControls.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling PlayBackControls.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/UndoWidget_3ebc1f96.o: ../Source/gui/widgets/UndoWidget.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling UndoWidget.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/Arcs_4755f8f.o: ../Source/gui/Arcs.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling Arcs.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/LicenseInfo_cef7c8ab.o: ../Source/gui/LicenseInfo.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling LicenseInfo.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/LiveGuiPlayback_fc144f06.o: ../Source/gui/LiveGuiPlayback.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling LiveGuiPlayback.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/MainComponent_20180b20.o: ../Source/gui/MainComponent.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling MainComponent.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/Main_ec133113.o: ../Source/Main.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling Main.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/BinaryData_371e9b63.o: ../JuceLibraryCode/BinaryData.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling BinaryData.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/BinaryData2_acd4e6f9.o: ../JuceLibraryCode/BinaryData2.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling BinaryData2.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/BinaryData3_ace2fe7a.o: ../JuceLibraryCode/BinaryData3.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling BinaryData3.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/BinaryData4_acf115fb.o: ../JuceLibraryCode/BinaryData4.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling BinaryData4.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/BinaryData5_acff2d7c.o: ../JuceLibraryCode/BinaryData5.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling BinaryData5.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/BinaryData6_ad0d44fd.o: ../JuceLibraryCode/BinaryData6.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling BinaryData6.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/include_juce_audio_basics_10901fdb.o: ../JuceLibraryCode/include_juce_audio_basics.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling include_juce_audio_basics.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/include_juce_audio_devices_a5008791.o: ../JuceLibraryCode/include_juce_audio_devices.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling include_juce_audio_devices.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/include_juce_audio_formats_57e78a90.o: ../JuceLibraryCode/include_juce_audio_formats.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling include_juce_audio_formats.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/include_juce_audio_processors_4e18d77.o: ../JuceLibraryCode/include_juce_audio_processors.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling include_juce_audio_processors.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
+$(JUCE_OBJDIR)/include_juce_audio_processors_ara_f0d9d588.o: ../JuceLibraryCode/include_juce_audio_processors_ara.cpp
+	-$(V_AT)mkdir -p $(@D)
+	@echo "Compiling include_juce_audio_processors_ara.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/include_juce_audio_processors_lv2_libs_620ed617.o: ../JuceLibraryCode/include_juce_audio_processors_lv2_libs.cpp
+	-$(V_AT)mkdir -p $(@D)
+	@echo "Compiling include_juce_audio_processors_lv2_libs.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
+
 $(JUCE_OBJDIR)/include_juce_audio_utils_ac367525.o: ../JuceLibraryCode/include_juce_audio_utils.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling include_juce_audio_utils.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/include_juce_core_9b13c06c.o: ../JuceLibraryCode/include_juce_core.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling include_juce_core.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
+$(JUCE_OBJDIR)/include_juce_core_CompilationTime_58e4dabd.o: ../JuceLibraryCode/include_juce_core_CompilationTime.cpp
+	-$(V_AT)mkdir -p $(@D)
+	@echo "Compiling include_juce_core_CompilationTime.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
+
 $(JUCE_OBJDIR)/include_juce_cryptography_12f98f39.o: ../JuceLibraryCode/include_juce_cryptography.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling include_juce_cryptography.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/include_juce_data_structures_f830b4b2.o: ../JuceLibraryCode/include_juce_data_structures.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling include_juce_data_structures.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/include_juce_events_29769ee6.o: ../JuceLibraryCode/include_juce_events.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling include_juce_events.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/include_juce_graphics_2525d958.o: ../JuceLibraryCode/include_juce_graphics.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling include_juce_graphics.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
+$(JUCE_OBJDIR)/include_juce_graphics_Harfbuzz_f0ceb6b1.o: ../JuceLibraryCode/include_juce_graphics_Harfbuzz.cpp
+	-$(V_AT)mkdir -p $(@D)
+	@echo "Compiling include_juce_graphics_Harfbuzz.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/include_juce_graphics_Sheenbidi_b731ee5e.o: ../JuceLibraryCode/include_juce_graphics_Sheenbidi.c
+	-$(V_AT)mkdir -p $(@D)
+	@echo "Compiling include_juce_graphics_Sheenbidi.c"
+	$(V_AT)$(CC) $(JUCE_CFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
+
 $(JUCE_OBJDIR)/include_juce_gui_basics_567cf56.o: ../JuceLibraryCode/include_juce_gui_basics.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling include_juce_gui_basics.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/include_juce_gui_extra_e29f2629.o: ../JuceLibraryCode/include_juce_gui_extra.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling include_juce_gui_extra.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/execinfo.cmd:
+	-$(V_AT)mkdir -p $(@D)
+	-@if [ -z "$(V_AT)" ]; then echo "Checking if we need to link libexecinfo"; fi
+	$(V_AT)printf "int main() { return 0; }" | $(CXX) -x c++ -o $(@D)/execinfo.x -lexecinfo - >/dev/null 2>&1 && printf -- "-lexecinfo" > "$@" || touch "$@"
+
+$(JUCE_OBJDIR)/cxxfs.cmd:
+	-$(V_AT)mkdir -p $(@D)
+	-@if [ -z "$(V_AT)" ]; then echo "Checking if we need to link stdc++fs"; fi
+	$(V_AT)printf "int main() { return 0; }" | $(CXX) -x c++ -o $(@D)/cxxfs.x -lstdc++fs - >/dev/null 2>&1 && printf -- "-lstdc++fs" > "$@" || touch "$@"
 
 clean:
 	@echo Cleaning Codetta
@@ -376,6 +420,6 @@ clean:
 
 strip:
 	@echo Stripping Codetta
-	-$(V_AT)$(STRIP) --strip-unneeded $(JUCE_OUTDIR)/$(TARGET)
+	-$(V_AT)$(STRIP) --strip-unneeded $(JUCE_OUTDIR)/$(JUCE_TARGET_APP)
 
 -include $(OBJECTS_APP:%.o=%.d)

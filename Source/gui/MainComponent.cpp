@@ -613,7 +613,7 @@ namespace codetta
                 if (result == 6) {
                     LicenseInfo licenseInfo("https://thecoreyford.github.io/codetta-tutorials/questionaire_amy");
                     licenseInfo.setWantsKeyboardFocus(true);
-                    DialogWindow::showModalDialog ("Questionaire",
+                    DialogWindow::showDialog ("Questionaire",
                                                    &licenseInfo,
                                                    this,
                                                    Colours::lightgrey,
