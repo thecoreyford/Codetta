@@ -49,6 +49,15 @@ namespace codetta
             PlaybackSettings::get().registerStartRepeat (this);
         }
         
+        //======================================================================
+        
+        /**
+         *  Contains info for saving and loading a start repeat block
+         *  @param the head element for this block
+         *  @param if save or load should be performed
+         */
+         void doSaveOrLoad (XmlElement* blockHead, FileManipulator mode) override{}
+        
     private:
     };
     

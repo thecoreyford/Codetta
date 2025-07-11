@@ -14,7 +14,9 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "../audio/Audio.h"
 #include "../libs/juckly/client/Block.h"
-#include "../gui/InfoBar.h"
+#include "../gui/widgets/InfoBar.h"
+#include "../gui/widgets/UndoWidget.h"
+#include "../data-logger/DataLogger.h"
 
 //==============================================================================
 
@@ -62,6 +64,21 @@ namespace codetta
                     case 4: InfoBar::get().updateContents ("Dynamics set forte (loud)!"); break;
                     case 5: InfoBar::get().updateContents ("Dynamics set fortissimo (very loud)!"); break;
                 }
+                
+                #ifdef USE_LOGGING
+                switch (comboBoxL->getSelectedItemIndex())
+                {
+                    case 0: LOG_STRING(getID() + " set to pianissimo"); break;
+                    case 1: LOG_STRING(getID() + " set to piano"); break;
+                    case 2: LOG_STRING(getID() + " set to mezzo piano"); break;
+                    case 3: LOG_STRING(getID() + " set to mezzo forte"); break;
+                    case 4: LOG_STRING(getID() + " set to forte"); break;
+                    case 5: LOG_STRING(getID() + " set to fortissimo"); break;
+                }
+                #endif
+                
+                // Update undo stack
+//                codetta::UndoWidget::get().updateUndoStack();
             };
         }
         
@@ -71,6 +88,29 @@ namespace codetta
             auto comboBox = dynamic_cast<ComboBox*>(getInternalUI());
             jassert (comboBox != nullptr); // Cast didn't work!
             PlaybackSettings::get().setVelocity ((comboBox->getSelectedItemIndex()+1) * 21);
+        }
+        
+        //======================================================================
+        
+        /**
+         *  Contains info for saving and loading the dynamics setters internal data
+         *  @param the head element for this block
+         *  @param if save or load should be performed
+         */
+        void doSaveOrLoad (XmlElement* blockHead, FileManipulator mode) override
+        {
+            auto comboBox = dynamic_cast<ComboBox*>(getInternalUI());
+
+            if (mode == FileManipulator::save)
+            {
+                blockHead->setAttribute ("dynamicID",
+                                         comboBox->getSelectedId());
+            }
+            
+            //==================================================================
+            
+            if (mode == FileManipulator::load)
+                comboBox->setSelectedId (blockHead->getIntAttribute ("dynamicID"));
         }
         
     private:

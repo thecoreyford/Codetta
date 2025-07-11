@@ -10,7 +10,9 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "gui/MainComponent.h"
+#include "gui/LicenseInfo.h"
 #include "audio/Audio.h"
+#include "data-logger/DataLogger.h"
 
 //==============================================================================
 // Discussion on icon implementation is found here...
@@ -76,10 +78,12 @@ namespace codetta
                 mainComponent.reset (new MainComponent(audio));
                 
                 #if JUCE_IOS
-                    mainComponent->setSize (568, 320);
-                    setFullScreen (true); //320x568
+                    auto w = Desktop::getInstance().getDisplays().getMainDisplay().totalArea.getWidth();
+                    auto h = Desktop::getInstance().getDisplays().getMainDisplay().totalArea.getHeight();
+                    mainComponent->setSize (w, h);
+                    setFullScreen (true);
                 #else
-                    mainComponent->setSize (1366, 768);
+                    mainComponent->setSize (982, 633);
                 #endif
                 
                 setResizable (true, false);
@@ -87,14 +91,45 @@ namespace codetta
 
                 centreWithSize (getWidth(), getHeight());
                 setVisible (true);
+                
+                // Send a file so that we know the upload is working and is successfull!
+                #if defined JUCE_MAC && defined USE_LOGGING
+                    String myString = (String)"curl -X POST https://content.dropboxapi.com/2/files/upload \\\n"
+                                        + (String)"    --header \"Authorization: Bearer q4Cy6jD0XWgAAAAAAAAAAexsOAtOD50euF0z6ca7sg4EuQLJ8BA31By2i_hxdZCG"
+                    + (String)"\" \\\n" + "    --header \"Dropbox-API-Arg: {\\\"path\\\": \\\"/Phd-3/"
+                    + "test.txt"
+                    + "\\\"}\" \\\n"
+                    + (String)"    --header \"Content-Type: application/octet-stream\" \\\n"
+                    + (String)"    -d \""
+                    + "sucesss!"
+                    + (String)"\"";
+
+                    system (myString.toRawUTF8());
+                #endif
+                
+                
+                //TODO: Refactor license info class to be a welcome message class
+                //TODO: Will not work with web: use async...
+                // Show license
+//                LicenseInfo licenseInfo("https://thecoreyford.github.io/codetta/tutorials/tutorial_phd1a");
+//                DialogWindow::showModalDialog ("Welcome Message",
+//                                               &licenseInfo,
+//                                               this,
+//                                               Colours::lightgrey,
+//                                               true);
             }
             
             void closeButtonPressed() override
             {
-                // This is called when the user tries to close this window. Here, we'll just
-                // ask the app to quit when this happens, but you can change this to do
-                // whatever you need.
-                JUCEApplication::getInstance()->systemRequestedQuit();
+                // Are you sure you want to quit?
+                #if !defined USE_LOGGING
+                mainComponent->areYouSureYouWantToQuitWithoutSaving();
+                #endif
+                
+                #ifdef USE_LOGGING
+                if (JUCEApplicationBase::isStandaloneApp())
+                    JUCEApplicationBase::quit();
+                #endif
             }
             
             /* Note: Be careful if you override any DocumentWindow methods - the base
@@ -115,8 +150,10 @@ namespace codetta
         
         /** Single audio instance. */
         Audio audio;
+
+        /** Single logger instance. */
+        DataLogger logger;
     };
-    
 }
 
 //==============================================================================

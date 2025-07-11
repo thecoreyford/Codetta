@@ -11,6 +11,7 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "PlaybackSettings.h"
 
 //==============================================================================
 
@@ -108,6 +109,8 @@ namespace codetta
          */
         int getSize() const;
         
+        void exportToFile(File file);
+        
         /**
          *  Prints out all of the events in the list.
          */
@@ -123,12 +126,14 @@ namespace codetta
         /** Destructor. Currently does nothing.*/
         ~MidiEventList();
         
-        //TODO:  private copy constructors and the like etc...
-        
         /** Array holding all scheduled midi messages. */
         Array<MidiMessage> eventList;
+                
         /** Our sorter object for the array. */
         MidiMessageTimestampSorter sorter;
+        
+        //TODO: actually why not copy this.
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MidiEventList)
     };
     
     //==========================================================================

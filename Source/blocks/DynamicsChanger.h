@@ -13,6 +13,8 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "../audio/Audio.h"
 #include "../libs/juckly/client/Block.h"
+#include "../data-logger/DataLogger.h"
+#include "../gui/widgets/UndoWidget.h"
 #include "BlockSlider.h"
 
 /** Main namespace for codetta. */
@@ -35,6 +37,30 @@ namespace codetta
                                           )
                                          )
         {
+           //TODO: guard for first time this is created!
+           //TODO: just one slider moved variable
+           auto slider = dynamic_cast<BlockSlider*>(getInternalUI());
+           #ifdef USE_LOGGING
+           prev = 10; //init variables
+           slider->onValueChanged = [this]
+           {
+               // Update undo stack
+//               codetta::UndoWidget::get().updateUndoStack();
+               
+               // Log info
+               auto slider = dynamic_cast<BlockSlider*>(getInternalUI());
+               if (prev > slider->getValue())
+                   LOG_STRING (getID() + " slider decremented");
+               else
+                   LOG_STRING (getID() + " slider incremented");
+               prev = slider->getValue();
+           };
+           #else
+           slider->onValueChanged = [this]
+           {
+               codetta::UndoWidget::get().updateUndoStack();
+           };
+           #endif
         }
         
         /** Changes the tempo to the slider value. */
@@ -49,7 +75,35 @@ namespace codetta
                 PlaybackSettings::get().setVelocity (increment->getValue() + currentVel);
         }
         
+        //======================================================================
+        
+        /**
+         *  Contains info for saving and loading the dynamic changers internal data
+         *  @param the head element for this block
+         *  @param if save or load should be performed
+         */
+         void doSaveOrLoad (XmlElement* blockHead, FileManipulator mode) override
+         {
+             auto increment = dynamic_cast<BlockSlider*>(getInternalUI());
+             
+             if (mode == FileManipulator::save)
+             {
+                 blockHead->setAttribute ("dynamicsIncrement",
+                                          increment->getValue());
+             }
+          
+             //=================================================================
+          
+             if (mode == FileManipulator::load)
+             {
+                 increment->setValue (blockHead->getIntAttribute ("dynamicsIncrement"));
+             }
+         }
+        
     private:
+        #ifdef USE_LOGGING
+        int prev;
+        #endif
     };
     
 } // namespace codetta

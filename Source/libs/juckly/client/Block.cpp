@@ -17,7 +17,7 @@ namespace juckly
                   Image toolboxIconRhs,
                   Image workspaceImageRhs,
                   BlockType blockType,
-                  bool isStartNode,
+                  bool isStartNodeRhs,
                   Component* internalUIRhs,
                   bool takesParamRhs,
                   const int width,
@@ -27,6 +27,7 @@ namespace juckly
                       internalUI (internalUIRhs),
                       blockID        (uniqueID),
                       takesParam (takesParamRhs),
+                      isStartNode (isStartNodeRhs),
                       isGlobal (isGlobalRhs)
     {
         initialise (blockType, isStartNode, width, height);
@@ -55,6 +56,8 @@ namespace juckly
         // set block scaling object to the input width & height
         scaling.setWidth (width);
         scaling.setHeight (height);
+        
+        loadingIn = false;
         
         // restrict block to default size
         setSize (scaling.getWidth(), scaling.getHeight());
@@ -122,7 +125,35 @@ namespace juckly
     }
  
     void Block::mouseDown (const MouseEvent& e)
-    {
+    {        
+        // if right clicked write an xml description of this block to the clipboard
+        if (ModifierKeys::currentModifiers.isCtrlDown()
+            || ModifierKeys::currentModifiers.isRightButtonDown())
+        {
+            PopupMenu menu;
+            menu.addItem(1, "Copy");
+            #if !defined AMY_VERSION_1
+            menu.addItem(2, "Help");
+            #endif
+            menu.showMenuAsync(PopupMenu::Options(), [&](int result){
+                if (result == 1){
+                   XmlElement* blockElm = new XmlElement ("Block");
+                   blockElm->setAttribute ("id", getID());
+                   blockElm->setAttribute ("width", getWidth());
+                   blockElm->setAttribute ("height", getHeight());
+                   doSaveOrLoad (blockElm, juckly::Block::FileManipulator::save);
+                   Clipboard::get().copy (blockElm); //< to clipboard
+                }
+                
+                if (result == 2){
+                    //PUT HELP STUFF HERE
+                    #ifdef CODETTA
+                        codetta::ContextTracker::get().showHelpFor (blockID);
+                    #endif
+                }
+            });
+        }
+            
         // set previous block's connection to null
         if(connection.getPreviousNode() != nullptr)
             connection.getPreviousNode()->getConnection().setNextNode (nullptr);
@@ -132,6 +163,7 @@ namespace juckly
         
         // manipulate this blocks movement
         manipulator->mouseDown (this, e);
+        LOG_STRING (getID() + " start drag");
         
         moveNeighbours();
     }
@@ -147,7 +179,12 @@ namespace juckly
     
     void Block::mouseUp (const MouseEvent& e)
     {
+        LOG_STRING (getID() + " end drag");
         listener->checkCollisions (this, false);
+        
+        #ifdef CODETTA
+        codetta::UndoWidget::get().updateUndoStack();
+        #endif
     }
     
     const std::unique_ptr<BlockManipulator>& Block::getManipulator() const
@@ -272,4 +309,20 @@ namespace juckly
         return isGlobal;
     }
 
+    const bool& Block::isStartBlock() const
+    {
+        return isStartNode;
+    }
+
+    //===================================================
+
+    void Block::setLoading (bool newLoading)
+    {
+        loadingIn = newLoading;
+    }
+
+    const bool& Block::isLoadingIn() const
+    {
+        return loadingIn;
+    }
 } // namespace juckly 

@@ -145,6 +145,24 @@ namespace MusiSyncEng
         {
             // Treble clef by default...
             setMappingToClef (ClefTypes::Treble);
+            
+            // populate array!
+            /** loop for octaves */
+            int octaveCount = -1;
+            for (int i = 0; i <= 72; i += 12)
+            {
+                octaveCount++;
+                cMajor.set (0 + (7*octaveCount), (int)NoteSym::C1 + i);
+                
+                for (int i  = 1; i < 7/**scale notes*/; i++)
+                {
+                    int scaleNoteIndex = i + (7*octaveCount);
+                    if (i == 3)
+                        cMajor.set (scaleNoteIndex, cMajor[scaleNoteIndex - 1] + 1);
+                    else
+                        cMajor.set (scaleNoteIndex, cMajor[scaleNoteIndex - 1] + 2);
+                }
+            }
         }
         
         /**
@@ -249,9 +267,18 @@ namespace MusiSyncEng
             return NoteSym::C4;
         }
         
+        const Array<int>& getMajorScale() const
+        {
+            return cMajor;
+        }
+        
     private:
         /** Hashmap holding clef values. */
         HashMap<int, NoteSym> mapping;
+
+        /** Array of CMajor scale MIDI Notes*/
+        Array<int> cMajor;
+
     };
 
 } // namespace MusiSyncEng

@@ -70,13 +70,59 @@ namespace codetta
     {
         return eventList.size();
     }
+
+    void MidiEventList::exportToFile(File file)
+    {
+        MidiFile midiFile;
+        midiFile.setTicksPerQuarterNote(PlaybackSettings::get().getGlobalTempo() * 4);
+        
+        HashMap<int, int> gmMidiMapping; //< follow the GM MIDI standard
+        gmMidiMapping.set(1, 1);
+        gmMidiMapping.set(2, 10);
+        gmMidiMapping.set(6, 41);
+        gmMidiMapping.set(7, 42);
+        gmMidiMapping.set(8, 43);
+        gmMidiMapping.set(9, 57);
+        gmMidiMapping.set(15, 94);
+        
+        // For the different channels
+        for(int channel : {1,2,6,7,8,9,15})
+        {
+            // Create a new sequence
+            MidiMessageSequence midiMessageSequence;
+            
+            // assign the correct instrument
+            midiMessageSequence.addEvent(MidiMessage::programChange(channel, gmMidiMapping[channel] - 1));
+            
+            // for all the events
+            for (int i = 0; i < getSize(); ++i){
+                if(eventList[i].getChannel() == channel){
+                    midiMessageSequence.addEvent(eventList[i], 0);
+                }
+            }
+            
+            //add as a track
+            midiFile.addTrack(midiMessageSequence);
+        }
+        
+        // track based on the general midi standard
+//        midiMessageSequence.addEvent(MidiMessage::programChange(1, 1));
+//        midiMessageSequence.addEvent(MidiMessage::programChange(2, 10));
+//        midiMessageSequence.addEvent(MidiMessage::programChange(6, 41));
+        
+        // Output file
+        FileOutputStream fileOutputStream (file);
+        jassert(midiFile.writeTo(fileOutputStream));
+        fileOutputStream.flush();
+    }
     
     void MidiEventList::printEvents() const
     {
         DBG ("====== Events ======");
         for (int i = 0; i < getSize(); ++i)
         {
-            DBG (eventList[i].getTimeStamp() << " - " << eventList[i].getNoteNumber());
+            DBG (eventList[i].getTimeStamp() << " - " << eventList[i].getNoteNumber() <<
+                 (eventList[i].isNoteOn() ? " - on" : " - off"));
         }
         DBG ("====================");
     }

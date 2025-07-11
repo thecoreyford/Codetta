@@ -52,6 +52,15 @@ namespace codetta
             PlaybackSettings::get().setCurrentClef (clef);
         }
         
+        //======================================================================
+        
+        /**
+         *  Contains info for saving and loading a clef
+         *  @param the head element for this block
+         *  @param if save or load should be performed
+         */
+         void doSaveOrLoad (XmlElement* blockHead, FileManipulator mode) override{}
+        
     private:
         /** The clef for this block.*/
         MusiSyncEng::ClefTypes clef;

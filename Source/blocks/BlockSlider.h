@@ -19,7 +19,7 @@
 namespace codetta
 {
     /**
-     *  Slider componet with a crotchet icon.
+     *  Slider component in Codetta's labelled style.
      */
     class BlockSlider    : public Component
     {
@@ -53,6 +53,8 @@ namespace codetta
             slider.setValue (defaultValue);
             slider.setColour (Slider::ColourIds::textBoxTextColourId,
                               Colours::black);
+            
+            slider.onValueChange = [this]{onValueChanged();};
         }
         
         /** Destructor */
@@ -86,6 +88,18 @@ namespace codetta
         {
             return (int) slider.getValue();
         }
+        
+        /**
+         *  Setter for the sliders value;
+         *  @param the new value for the slider
+        */
+        void setValue (int newValue)
+        {
+            slider.setValue (newValue);
+        }
+        
+        /**Callback whenever a value changes /*/
+        std::function<void()> onValueChanged = [this]{};
         
     private:
         /** The slider used to select values from */

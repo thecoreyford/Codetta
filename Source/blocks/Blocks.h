@@ -20,3 +20,6 @@
 #include "Instruments.h"
 #include "DynamicsBlock.h"
 #include "DynamicsChanger.h"
+#include "PitchSetter.h"
+#include "DemoNewStartRepeat.h"
+#include "AmysBarBlocks.h"

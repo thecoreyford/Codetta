@@ -11,15 +11,17 @@
 #pragma once
 
 #include "../../../../JuceLibraryCode/JuceHeader.h"
+#include "../../../data-logger/DataLogger.h"
 #include "../Font.h"
 #include "FragmentFactory.h"
+#include "RectButton.h"
 
 //==============================================================================
 
 #define CODETTA 0 //< add macro so that the libs folder can remain clean for
                   // potentially releasing as an API.
 #ifdef CODETTA
-    #include "../../../gui/InfoBar.h"
+    #include "../../../gui/widgets/InfoBar.h"
 #endif
 
 //==============================================================================
@@ -48,11 +50,15 @@ namespace MusiSyncEng
         public:
             /** Destructor. */
             virtual ~Listener() {}
+            
             /**
              *  Called whenever a fragment has been chosen.
              *  @param the chosen fragment.
              */
             virtual void onFragmentSelected (Fragment noteValue) = 0;
+            
+            /** Called to remove a fragment from a bar. */
+            virtual void onMinusClicked() = 0;
         };
         
         /** Setter for listener classes. */
@@ -64,9 +70,23 @@ namespace MusiSyncEng
          */
         void updateMenu (float valueLeft);
         
+        /**
+         *  Sets weather the plus button is enabled.
+         *  @param if the plus button should be enabled.
+         */
+        void setPlusEnabled (bool isEnabled = true);
+        
+        /**
+         * Runs on click for the plus button.
+         */
+        void showPlus();
+        
     private:
         /** Button to show pop up menu. */
-        TextButton plus;
+        RectButton plus;
+        
+        /** Button to remove a note within the bar */
+        RectButton minus;
         
         //======================================================================
         /** Menu containing options. */
@@ -92,6 +112,5 @@ namespace MusiSyncEng
         
         /** Listeners to this popup menu. */
         Listener* listener;
-        
     };
 } // namespace MusicSyncEng

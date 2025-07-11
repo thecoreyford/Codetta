@@ -8,8 +8,50 @@
 
 namespace BinaryData
 {
-    extern const char*   Readme_md;
-    const int            Readme_mdSize = 1027;
+    extern const char*   acousticGuit_wav;
+    const int            acousticGuit_wavSize = 579114;
+
+    extern const char*   altoSax_wav;
+    const int            altoSax_wavSize = 887562;
+
+    extern const char*   bassGuit_wav;
+    const int            bassGuit_wavSize = 854154;
+
+    extern const char*   bassoon_wav;
+    const int            bassoon_wavSize = 887514;
+
+    extern const char*   cello_wav;
+    const int            cello_wavSize = 892784;
+
+    extern const char*   electricGuit_wav;
+    const int            electricGuit_wavSize = 889782;
+
+    extern const char*   flute_wav;
+    const int            flute_wavSize = 889222;
+
+    extern const char*   glock_wav;
+    const int            glock_wavSize = 635116;
+
+    extern const char*   noise_wav;
+    const int            noise_wavSize = 797206;
+
+    extern const char*   pad_wav;
+    const int            pad_wavSize = 886328;
+
+    extern const char*   piano_wav;
+    const int            piano_wavSize = 963196;
+
+    extern const char*   tenorSax_wav;
+    const int            tenorSax_wavSize = 886694;
+
+    extern const char*   trumpet_wav;
+    const int            trumpet_wavSize = 887574;
+
+    extern const char*   viola_wav;
+    const int            viola_wavSize = 893212;
+
+    extern const char*   violin_wav;
+    const int            violin_wavSize = 889244;
 
     extern const char*   binClosed_png;
     const int            binClosed_pngSize = 22626;
@@ -51,10 +93,46 @@ namespace BinaryData
     const int            MusiSync_ttfSize = 77604;
 
     extern const char*   upsideDownQuaver_png;
-    const int            upsideDownQuaver_pngSize = 9108;
+    const int            upsideDownQuaver_pngSize = 4707;
 
     extern const char*   README_md2;
     const int            README_md2Size = 940;
+
+    extern const char*   paintBlockIcon_png;
+    const int            paintBlockIcon_pngSize = 250515;
+
+    extern const char*   pianoRollBlockIcon_png;
+    const int            pianoRollBlockIcon_pngSize = 229750;
+
+    extern const char*   fileButtonDown_png;
+    const int            fileButtonDown_pngSize = 11539;
+
+    extern const char*   fileButtonNormal_png;
+    const int            fileButtonNormal_pngSize = 13607;
+
+    extern const char*   fileButtonOver_png;
+    const int            fileButtonOver_pngSize = 12131;
+
+    extern const char*   undoButtonDown_png;
+    const int            undoButtonDown_pngSize = 14904;
+
+    extern const char*   undoButtonNormal_png;
+    const int            undoButtonNormal_pngSize = 16378;
+
+    extern const char*   undoButtonOver_png;
+    const int            undoButtonOver_pngSize = 14663;
+
+    extern const char*   undo_png;
+    const int            undo_pngSize = 21309;
+
+    extern const char*   pitchSetterBlockIcon_png;
+    const int            pitchSetterBlockIcon_pngSize = 78415;
+
+    extern const char*   lightBlueBlock_png;
+    const int            lightBlueBlock_pngSize = 45949;
+
+    extern const char*   tuningfork_png;
+    const int            tuningfork_pngSize = 37027;
 
     extern const char*   CodettaLogo2_png;
     const int            CodettaLogo2_pngSize = 38044;
@@ -177,16 +255,16 @@ namespace BinaryData
     const int            yellowBlock_pngSize = 43361;
 
     extern const char*   CHANGELOG_md;
-    const int            CHANGELOG_mdSize = 2931;
+    const int            CHANGELOG_mdSize = 3365;
 
     extern const char*   README_md3;
-    const int            README_md3Size = 1272;
+    const int            README_md3Size = 953;
 
     extern const char*   REFERENCES_md;
     const int            REFERENCES_mdSize = 1765;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 59;
+    const int namedResourceListSize = 85;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

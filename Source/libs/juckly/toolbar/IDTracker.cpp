@@ -26,7 +26,8 @@ namespace juckly
     {
         // You've already added a block with this ID!
         // Make sure you haven't added dupliate blocks.
-        jassert ( !idAlias.contains (name));
+//        jassert ( !idAlias.contains (name)); //  I want to be able to add duplicate blocks...
+                                               //  ...same block in two places.
         
         currentUnusedID++; // move onto the next ID
         

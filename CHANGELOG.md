@@ -81,3 +81,21 @@ ___
 * Added new Icon
 
 ___
+
+## InMusic Study Release
+* Stripped all (non JUCE) 3rd party stuff
+* Added remove note button to MusiSync Engine
+* Builds on windows
+* Builds for iPhone and iPad
+* Uses JUCE based samples (no more fluid synth), collected personally
+* Limited number of blocks avaliable
+* Added reverb to audio IO callback
+* Tutorials open on default
+
+___
+
+## In Progress
+* HOTFIX solved - block not connected when first added
+
+___
+

@@ -52,18 +52,36 @@ namespace codetta
         /** Virtual destructor */
         virtual ~InstrumentBlock() {}
         
+         /** First time initialisation of  all playback settings. */
+         void doAction() override
+         {
+             PlaybackSettings::get().setLatestTimestampAddition (0);
+             PlaybackSettings::get().setCurrentClef (MusiSyncEng::ClefTypes::Treble);
+             PlaybackSettings::get().setTuningOffset (0);
+             PlaybackSettings::get().clearAllStartRepeats();
+             PlaybackSettings::get().registerStartRepeat (this);
+             PlaybackSettings::get().setBPM (PlaybackSettings::get().getGlobalTempo());
+             PlaybackSettings::get().setVelocity (63);
+             doResets();
+         }
+         
+        /** Resets block defaults */
+         void doResets()
+         {
+             PlaybackSettings::get().setInstrument (instrument);
+//             PlaybackSettings::get().setVelocity (63);
+//             PlaybackSettings::get().setTuningOffset (0);
+         }
+         
+        
+        //======================================================================
+        
         /**
-         *  Run when reading block, sets current instrument.
+         *  Contains info for saving and loading an intstrument block
+         *  @param the head element for this block
+         *  @param if save or load should be performed
          */
-        void doAction() override
-        {
-            PlaybackSettings::get().setBPM (PlaybackSettings::get().getGlobalTempo());
-            PlaybackSettings::get().setCurrentClef (MusiSyncEng::ClefTypes::Treble);
-            PlaybackSettings::get().setLatestTimestampAddition (0);
-            PlaybackSettings::get().clearAllStartRepeats();
-            PlaybackSettings::get().setVelocity (63);
-            PlaybackSettings::get().setInstrument (instrument);
-        }
+         void doSaveOrLoad (XmlElement* blockHead, FileManipulator mode) override{}
         
     private:
         /** The instrument for this block.*/

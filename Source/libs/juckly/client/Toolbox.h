@@ -11,6 +11,7 @@
 #pragma once
 
 #include "../../../../JuceLibraryCode/JuceHeader.h"
+#include "../../../data-logger/DataLogger.h"
 #include "../toolbar/JucklyToolbarItemFactory.h"
 #include "../toolbar/IDTracker.h"
 
@@ -47,8 +48,8 @@ namespace juckly
          *  @param the category literal where the block should be placed.
          *  @param the block to be incorporated.
          */
-        void addBlock (const String& categoryName, const Block* block);
-        
+        void addBlock (const String& categoryName, const std::shared_ptr<Block>& block);
+
         /**
          *  Callback for each change of tab. Ensures the corresponding toolbar 
          *      is visible for the selected category.
@@ -57,6 +58,14 @@ namespace juckly
          */
         void currentTabChanged (int newCurrentTabIndex,
                                 const String& newCurrentTabName) override;
+        
+        /**
+         *  Rename function for categorys.
+         *  @param old category name to be changed.
+         *  @param the new category name.
+         */
+        void changeCategoryName (const String& oldCategory,
+                                 const String& newCategory);
         
     private:
         /**
@@ -90,6 +99,8 @@ namespace juckly
         
         /** Contains each toolbar object. */
         OwnedArray<Toolbar> toolbars;
+        
+        std::vector<std::shared_ptr<Block>> blocks;
         
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Toolbox)
     };

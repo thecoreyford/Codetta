@@ -26,16 +26,25 @@ namespace juckly
     Rectangle<float> BlockManipulator::getInput()
     {
         jassert(false);
+
+		Rectangle<float> dummy; // for windows
+		return dummy;
     }
     
     Rectangle<float> BlockManipulator::getOutput()
     {
         jassert(false);
+
+		Rectangle<float> dummy; // for windows
+		return dummy;
     }
     
     Rectangle<float> BlockManipulator::getParam()
     {
         jassert(false);
+
+		Rectangle<float> dummy; // for windows
+		return dummy;
     }
     //==========================================================================
     

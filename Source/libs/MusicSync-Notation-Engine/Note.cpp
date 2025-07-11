@@ -1,21 +1,26 @@
 /*
-  ==============================================================================
-
+ ==============================================================================
+ 
     Note.cpp
     Created: 2 Oct 2018 9:04:04pm
     Author:  Corey Ford
-
-  ==============================================================================
-*/
+ 
+ ==============================================================================
+ */
 
 #include "Note.h"
 
 /** Namespace for the MusiSync Notation Engine */
 namespace MusiSyncEng
-{    
+{
     Note::Note (NewFont::NoteValue valueRhs, bool flippableRhs)
-        : value (valueRhs), flippable (flippableRhs)
+    : value (valueRhs), flippable (flippableRhs)
     {
+        // draw black notes by default
+        currentColour = Colours::black;
+        
+        beamed = false;
+        
         listener = nullptr;
         
         addAndMakeVisible (up);
@@ -30,9 +35,13 @@ namespace MusiSyncEng
                 pitchOffset++;
             repaint();
             
-            #ifdef CODETTA
-                codetta::InfoBar::get().updateContentForNote (pitchOffset, value);
-            #endif
+        #ifdef CODETTA
+            codetta::ContextTracker::get().updateLastUsed ("Note", this);
+            codetta::ContextTracker::get().updateLastUsed ("Bar", parentBar);
+            codetta::InfoBar::get().updateContentForNote (pitchOffset, value);
+            codetta::UndoWidget::get().updateUndoStack();
+        #endif
+            LOG_STRING("Note moved up");
         };
         
         addAndMakeVisible (down);
@@ -47,9 +56,13 @@ namespace MusiSyncEng
                 pitchOffset--;
             repaint();
             
-            #ifdef CODETTA
-                codetta::InfoBar::get().updateContentForNote (pitchOffset, value);
-            #endif
+        #ifdef CODETTA
+            codetta::ContextTracker::get().updateLastUsed ("Note", this);
+            codetta::ContextTracker::get().updateLastUsed ("Bar", parentBar);
+            codetta::InfoBar::get().updateContentForNote (pitchOffset, value);
+            codetta::UndoWidget::get().updateUndoStack();
+        #endif
+            LOG_STRING("Note moved down");
         };
         
         resized();
@@ -79,13 +92,16 @@ namespace MusiSyncEng
     {
         textPosition = getLocalBounds();
         textPosition.removeFromBottom (4);
+        bool flipped = false;
         
         if (flippable)
         {
             auto translationAmount = pitchOffset * offsetIncrementAmount;
             const auto transformedPosition = 3 * offsetIncrementAmount;
-            if (pitchOffset >= 3 && value != NewFont::NoteValue::quaver) // were above middle of the stave
+            if ((pitchOffset >= 5 && value != NewFont::NoteValue::quaver) ||
+                (pitchOffset >= 5 && beamed == true) ) // were above middle of the stave
             {
+                flipped = true;
                 auto centreX = textPosition.getWidth() * 0.5f;
                 auto centreY = textPosition.getHeight() * 0.65f;
                 g.addTransform (AffineTransform::rotation (M_PI, centreX, centreY));
@@ -93,6 +109,7 @@ namespace MusiSyncEng
             }
             else
             {
+                flipped = false;
                 auto centreX = getWidth() * 0.5f;
                 auto centreY = getHeight() * 0.5f;
                 g.addTransform (AffineTransform::rotation (0, centreX, centreY));
@@ -111,25 +128,34 @@ namespace MusiSyncEng
         //===============================================================================
         // Draw ledger lines.
         if (pitchOffset == -3)
-            g.drawLine (textPosition.getX() + (textPosition.getWidth() * 0.2) - 5,
+            g.drawLine (textPosition.getX() - 3, //+ (textPosition.getWidth() * 0.2) - 5,
                         textPosition.getY() * 3.9,
-                        textPosition.getWidth() - (textPosition.getWidth() * 0.2) - 5,
+                        textPosition.getWidth() - (textPosition.getWidth() * 0.2),// - (textPosition.getWidth() * 0.2) - 5,
                         textPosition.getY() * 3.9,
                         3.0);
         
         if (pitchOffset == 9)
-            g.drawLine (textPosition.getX() + (textPosition.getWidth() * 0.2) - 5,
+            g.drawLine (textPosition.getX() + 3,//(textPosition.getWidth() * 0.2) ,//- 5,
                         textPosition.getHeight() + 17,
-                        textPosition.getWidth() - (textPosition.getWidth() * 0.2) - 5,
+                        textPosition.getWidth() + (textPosition.getWidth() * 0.2),// - 5,
                         textPosition.getHeight() + 17,
                         3.0);
         //===============================================================================
         
         g.setFont (NewFont::getNotationFont().withHeight (textPosition.getHeight()));
-        g.setColour (Colours::black);
-        String text = String::charToString(NewFont::getNoteAsChar (value));
+        g.setColour (currentColour);
         
-        if (value == NewFont::NoteValue::quaver && pitchOffset >= 3)
+        //================================================================================
+        // Draw the correct quaver character if beamed
+        String text;
+        if (beamed == true) {
+            text = String::charToString(NewFont::getNoteAsChar (NewFont::NoteValue::crotchet));
+        } else {
+            text = String::charToString(NewFont::getNoteAsChar (value));
+        }
+        //================================================================================
+        
+        if (value == NewFont::NoteValue::quaver && pitchOffset >= 5 && beamed == false)
         {
             // If true then the tail of the quaver should be inverted...
             // so we will use an image!
@@ -145,18 +171,22 @@ namespace MusiSyncEng
         }
         else
         {
-            // Else we can just use the font 
-            g.drawText (text, textPosition, Justification::centred, true);
+            // else we can just use the font...
+            textPosition.removeFromLeft (0.3);
+            g.drawText (text,
+                        textPosition,
+                        flipped ? Justification::centredRight : Justification::centredLeft,
+                        true);
         }
     }
     
     void Note::resized()
     {
         offsetIncrementAmount = getHeight() / 12.0f;
-
+        
         auto upBounds = getLocalBounds();
         auto downBounds = getLocalBounds();
-
+        
         upBounds.removeFromBottom (getLocalBounds().getHeight() * 0.5);
         downBounds.removeFromTop (getLocalBounds().getHeight() * 0.5);
         
@@ -174,7 +204,25 @@ namespace MusiSyncEng
     
     Rectangle<int> Note::getTextPosition() const
     {
-        return textPosition; 
+        return textPosition;
     }
     
-} // MusiSyncEng
+    void Note::setPitchOffset (const int& newPitch)
+    {
+        if (newPitch <= 9 && newPitch >= -3){
+            pitchOffset = newPitch;
+            resized(); repaint();
+        }
+        #ifdef CODETTA
+        codetta::ContextTracker::get().updateLastUsed ("Note", this);
+        #endif
+    }
+
+    void Note::setCurrentColour (Colour newColour)
+    {
+        currentColour = newColour;
+        repaint();
+    }
+
+    
+} // namespace MusiSyncEng

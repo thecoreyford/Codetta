@@ -11,6 +11,7 @@
 #pragma once
 
 #include "../../../JuceLibraryCode/JuceHeader.h"
+#include "../../data-logger/DataLogger.h"
 #include "Font.h"
 #include "OffsetMappings.h"
 
@@ -18,10 +19,14 @@
 #define CODETTA 0 //< add macro so that the libs folder can remain clean for
                   // potentially releasing as an API.
 #ifdef CODETTA
-    #include "../../gui/InfoBar.h"
+    #include "../../gui/widgets/InfoBar.h"
+    #include "../../gui/widgets/ContextTracker.h"
+    #include "../../gui/widgets/UndoWidget.h"
 #endif
 //==============================================================================
-
+#ifdef JUCE_WINDOWS
+#define M_PI 3.14159265358979323846264338327950288
+#endif
 /** Namespace for the MusiSync Notation Engine */
 namespace MusiSyncEng
 {
@@ -100,6 +105,51 @@ namespace MusiSyncEng
          */
         void changeClef (ClefTypes clef) { mapping.setMappingToClef (clef); }
         
+        
+        //======================================================================
+        
+        /**
+         *  Getter for the pitch offset value.
+         *  @return the pitch offset of this note.
+         */
+        const int& getPitchOffset() const { return pitchOffset; }
+        
+        /**
+         *  Setter for pitch offset.
+         *  @param the new pitch offset value.
+         */
+        void setPitchOffset (const int& newPitch);
+        
+        /**
+         *  Setter for a notes colour.
+         *  @param the new colour for the note.
+         */
+        void setCurrentColour (Colour newColour);
+        
+        /**
+         *  Setter for the parent bar object.
+         *  @param the new parent bar object.
+         */
+        void setParentBar (Component* newParentBar) { parentBar = newParentBar; }
+        
+        /**
+         *  Getter to retreive this notes  bar object.
+         *  @return the parent object.
+         */
+        Component* getParentBar() { return parentBar; }
+        
+        /**
+         *  Getter for the offset increment amount.
+         *  @return the offset increment amount.
+         */
+        const int& getOffsetIncrementAmount() const { return offsetIncrementAmount; }
+        
+        //TODO: setter and getter me!
+        /** If the note is beamed represent a single stemed note. */
+        bool beamed; 
+        
+        //======================================================================
+        
     private:
         
         /** Private destructor. */
@@ -125,10 +175,16 @@ namespace MusiSyncEng
         /** Pointer for listener objects. */
         Listener* listener;
         
+        /** Pointer to the bar container. */
+        Component* parentBar;
+        
         /** True if note inverts past the centre line. */
         bool flippable = true;
         
         /** Mapping for the offset to its clef.*/
         OffsetMappings mapping;
+        
+        /** Colour for the note* */
+        Colour currentColour;
     };
 } // namespace MusicSyncEng

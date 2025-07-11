@@ -127,6 +127,7 @@ namespace codetta
         latestTimestampAddition = 0.0f;
         clearAllStartRepeats();
         velocity = 63;
+        tuningOffset = 0;
     }
     
     //==========================================================================
@@ -155,4 +156,16 @@ namespace codetta
         return velocity;
     }
     
+    //==========================================================================
+    
+    void PlaybackSettings::setTuningOffset(int newTuningOffset)
+    {
+        tuningOffset = newTuningOffset;
+    }
+    
+    int PlaybackSettings::getTuningOffset() const
+    {
+        return tuningOffset;
+    }
+        
 } // namespace codetta

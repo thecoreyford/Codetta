@@ -16,21 +16,18 @@ namespace codetta
     Audio::Audio()
     {
         audioDeviceManager.initialiseWithDefaultDevices (0 /*inputs*/,2 /*outputs*/);
-     
-        setupSoundfont();
-        // load the soundfont into the audio source
-        audioSourcePlayer.setSource (&soundfontAudioSource);
+        
+        // load the custom audio sourceinto the player
+        audioSourcePlayer.setSource (&codettaAudioSource);
         
         // add the audio callback
-//        audioDeviceManager.addAudioCallback (this);
-        audioDeviceManager.addAudioCallback(&audioSourcePlayer);
+        audioDeviceManager.addAudioCallback (this);
     }
     
     Audio::~Audio()
     {
         audioSourcePlayer.setSource (nullptr);
-//        audioDeviceManager.removeAudioCallback (this);
-        audioDeviceManager.removeAudioCallback(&audioSourcePlayer);
+        audioDeviceManager.removeAudioCallback (this);
     }
     
     //======================================================================
@@ -48,52 +45,62 @@ namespace codetta
     
     //==========================================================================
 
-//    void Audio::audioDeviceAboutToStart (AudioIODevice* device)
-//    {
-//        audioSourcePlayer.audioDeviceAboutToStart (device);
-//    }
-//    
-//    void Audio::audioDeviceIOCallback (const float** inputChannelData,
-//                                       int numInputChannels,
-//                                       float** outputChannelData,
-//                                       int numOutputChannels,
-//                                       int numSamples)
-//    {
-//        audioSourcePlayer.audioDeviceIOCallback (inputChannelData,
-//                                                 numInputChannels,
-//                                                 outputChannelData,
-//                                                 numOutputChannels,
-//                                                 numSamples);
-//    }
-//    
-//    void Audio::audioDeviceStopped()
-//    {
-//        audioSourcePlayer.audioDeviceStopped();
-//    }
-    
-    //==========================================================================
-    
-    void Audio::setupSoundfont()
+    void Audio::audioDeviceAboutToStart (AudioIODevice* device)
     {
-        // Load soundfont
-        String soundfontFilePath (File::getSpecialLocation (File::SpecialLocationType::currentApplicationFile).getFullPathName());
-        soundfontFilePath += "/Contents/Resources/GMSoundFont.sf2";
-        const File soundfontFile (soundfontFilePath);
-        soundfontAudioSource.loadSoundfont (soundfontFile);
+        audioSourcePlayer.audioDeviceAboutToStart (device);
+        reverb.setSampleRate (device->getCurrentSampleRate());
         
-        // Set channels with correct program change messages
-        setProgramChangeMessagesForChannels();
+        Reverb::Parameters params = reverb.getParameters();
+        params.wetLevel = 0.8f;
+        params.damping = 0.5f;
+        params.width = 0.8f;
+        params.dryLevel = 0.6f;
+        params.roomSize = 0.3f;
+        reverb.setParameters (params);
     }
     
-    void Audio::setProgramChangeMessagesForChannels()
+    void Audio::audioDeviceIOCallback (const float** inputChannelData,
+                                       int numInputChannels,
+                                       float** outputChannelData,
+                                       int numOutputChannels,
+                                       int numSamples)
     {
-        int channel = 0;
-        for (auto GMInstrument : {0, 9, 24, 29, 33, 40, 41, 42, 56, -1, 65, 66, 70, 73, 81})
-        {
-            channel++;
-            if (channel != 10) // as it is reserved for percussion sounds
-                soundfontAudioSource.programChange (channel, GMInstrument);
-        }
-    }
+        audioSourcePlayer.audioDeviceIOCallback (inputChannelData,
+                                                 numInputChannels,
+                                                 outputChannelData,
+                                                 numOutputChannels,
+                                                 numSamples);
 
+        auto outLeft = outputChannelData[0];
+        auto outRight = outputChannelData[1];
+        const float outGain = 0.010;
+        
+        // Buffer rate block...
+        if (outRight == nullptr) // iphones and the like are mono
+            reverb.processMono (outLeft, numSamples);
+        else
+            reverb.processStereo (outLeft, outRight, numSamples);
+
+
+        // Sample rate block...
+        while (numSamples--)
+        {
+            *outLeft *= outGain;
+            outLeft++;
+            
+            if (outRight != nullptr) // iphones and the like are mono
+            {
+                *outRight *= outGain;
+                outRight++;
+            }
+        }
+        
+    }
+    
+    void Audio::audioDeviceStopped()
+    {
+        reverb.reset();
+        audioSourcePlayer.audioDeviceStopped();
+    }
+    
 } // namespace codetta

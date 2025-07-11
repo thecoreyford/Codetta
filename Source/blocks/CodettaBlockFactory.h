@@ -12,7 +12,9 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "../libs/juckly/client/BlockFactory.h"
-#include "../gui/InfoBar.h"
+#include "../gui/widgets/InfoBar.h"
+#include "../gui/widgets/UndoWidget.h"
+#include "../data-logger/DataLogger.h"
 #include "Blocks.h"
 
 //==============================================================================
@@ -34,6 +36,7 @@ namespace codetta
         virtual juckly::Block* doMakeBlock (String& blockID) override
         {
             InfoBar::get().updateContents ("Added " + blockID + "!");
+            LOG_STRING(blockID + " block added");
             
             // Basic
             if (blockID == "StartBlock") return new StartBlock;
@@ -77,16 +80,23 @@ namespace codetta
             
             if (blockID == "BassClef") return new BassClef;
             
+            if (blockID == "PitchSetter") return new PitchSetter;
+            
             // Dynamics
             if (blockID == "DynamicsBlock") return new DynamicsBlock;
             
             if (blockID == "DynamicsChanger") return new DynamicsChanger;
-
+            
+            // Amys Blocks
+            if (blockID == "PianoRollBar") return new amy::PianoRollBar;
+            
+            if (blockID == "PainterlyBar") return new amy::PainterlyBar;
+            
+            InfoBar::get().updateContents();
             
             // If you've broken here the block you have tried to create
             // does not exist!
             jassert (false);
-            InfoBar::get().updateContents();
             return nullptr; 
         }
     };

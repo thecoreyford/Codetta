@@ -70,6 +70,17 @@ namespace juckly
             if (slider != nullptr)
                 DBG ("Write slider value -> " + (String)slider->getValue());
         }
+        
+        /**
+         *  Contains dummy info for saving and loading block info using XMLElement
+         *  @param the head element for this block
+         *  @param if save or load should be performed
+         */
+        void doSaveOrLoad (XmlElement* blockHead, FileManipulator mode) override
+        {
+            DBG ("No save for load for block: " + getID());
+        }
+        
     private:
         /** 
          *  Pointer to the slider parsed, so it's members can be accessed
@@ -102,6 +113,16 @@ namespace juckly
         void doAction() override
         {
             DBG ("Start block checked!");
+        }
+        
+        /**
+         *  Contains dummy info for saving and loading block info using XMLElement
+         *  @param the head element for this block
+         *  @param if save or load should be performed
+         */
+        void doSaveOrLoad (XmlElement* blockHead, FileManipulator mode) override
+        {
+            DBG ("No save for load for block: " + getID());
         }
     };
     
@@ -149,7 +170,17 @@ namespace juckly
             if (text != nullptr)
                 DBG (text->getText());
         }
-   
+        
+        /**
+         *  Contains dummy info for saving and loading block info using XMLElement
+         *  @param the head element for this block
+         *  @param if save or load should be performed
+         */
+        void doSaveOrLoad (XmlElement* blockHead, FileManipulator mode) override
+        {
+            DBG ("No save for load for block: " + getID());
+        }
+
     private:
         /**
          *  Pointer to the text editor parsed, so it's members can be accessed
@@ -193,6 +224,16 @@ namespace juckly
                 dynamic_cast<Block*>(param)->doAction();
             
             DBG ("Demo function block holder checked!");
+        }
+        
+        /**
+         *  Contains dummy info for saving and loading block info using XMLElement
+         *  @param the head element for this block
+         *  @param if save or load should be performed
+         */
+        void doSaveOrLoad (XmlElement* blockHead, FileManipulator mode) override
+        {
+            DBG ("No save for load for block: " + getID());
         }
     };
 } // namespace juckly

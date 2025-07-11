@@ -11,7 +11,9 @@
 #pragma once
 
 #include "../../../../JuceLibraryCode/JuceHeader.h"
+#include "../../../data-logger/DataLogger.h"
 #include "../block/BlockScaling.h"
+#include "../block/Clipboard.h"
 #include "BlockFactory.h"
 #include "Block.h"
 
@@ -20,7 +22,10 @@
 #define CODETTA 0 //< add macro so that the libs folder can remain clean for
                   // potentially releasing as an API.
 #ifdef CODETTA
-    #include "../../../gui/InfoBar.h"
+    #include "../../../gui/widgets/InfoBar.h"
+    #include "../../../gui/widgets/ContextTracker.h"
+    #include "../../../gui/Arcs.h"
+    #include "../../../gui/widgets/UndoWidget.h"
 #endif
 
 //==============================================================================
@@ -101,11 +106,49 @@ namespace juckly
         const OwnedArray<Block>& getStartBlocks() const;
         
         /**
+         *  Getter for all other blocks.
+         *  @return reference to the array of all blocks excluding starting blocks.
+        */
+        const OwnedArray<Block>& getOtherBlocks() const;
+        
+        /**
          *  Setter for the visible bounds.
          *  @param the new visible bounds area.
          */
         void setVisibleBounds (Rectangle<int> visibleBoundsRhs);
-
+        
+        /**
+         *  Setter for if the bin should be shrunk (i.e. on a mobile device).
+         *  @param true if the bin should be shrunk..
+         */
+        void setBinIsShrunk (bool binShrunk);
+        
+        /** Removes all blocks from the workspace. */
+        void clearWorkstation();
+        
+        /**
+         *  Getter for the last block added to the workspace.
+         *  @return a pointer to the last block added to the workspace.
+         */
+        Block* getLastAddedBlock() { return lastAddedBlock; }
+        
+        /**
+         *  Callback for a mouse down event.
+         *  Used to allow for the pasting of blocks.
+         *  @param the mouse event.
+         */
+        void mouseDown (const MouseEvent& e) override;
+        
+        //=================================================================
+        
+        /**
+         *  Adds a block to the workspace based on it's XML description.
+         *  @param XML description for the block
+         *  @param co-ordinate point where the block will be pasted.
+         */
+        void injectBlockFromDescription (std::unique_ptr<XmlElement>& item,
+                                         const Point<int>& pasteCoords);
+        
     private:
         
         /**
@@ -137,12 +180,18 @@ namespace juckly
         /** Image representing the bin. */
         ImageComponent bin;
         
+        /** If the bin should be shrunk (e.g. on an iphone device)*/
+        bool binIsShrunk;
+        
         /** Image representing the workspace background. */
         Image background {ImageCache::getFromMemory (BinaryData::loopingdesk_jpg,
                                                        BinaryData::loopingdesk_jpgSize)};
         
         /** The rectangle visible, incase workspace is housed within a viewport */
         Rectangle<int> visibleBounds;
+        
+        /** Last block added to the workspace (useful for loading blocks)*/
+        Block* lastAddedBlock;
         
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Workspace)
     };

@@ -10,15 +10,19 @@
 
 #pragma once
 
-#include "../3rdparty/juce-soundfonts/Source/SoundfontAudioSource.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MidiEventList.h"
+#include "CodettaAudioSource.h"
+#include "../gui/LiveGuiPlayback.h"
+
+#include "../libs/Amys-Notation/DrawComponent.h"
+#include "../libs/Amys-Notation/BlockComponent.h"
 
 /** Main namespace for codetta. */
 namespace codetta
 {
     /**
-     *  Class handling triggering midi output.
+     *  Class handling triggering midi output, and communicating with the playback gui.
      */
     class MidiOut    : public Timer
     {
@@ -27,7 +31,7 @@ namespace codetta
          *  Constructor.
          *  @param Reference to the audio source to be used.
          */
-        MidiOut (SoundfontAudioSource& audioSourceRhs);
+        MidiOut (CodettaAudioSource& audioSourceRhs);
         
         /** Destructor. */
         ~MidiOut();
@@ -37,6 +41,12 @@ namespace codetta
         
         /** Triggers output of midi message.  */
         void timerCallback() override;
+        
+        /**
+         *  Quick fire midi Message
+         *  @param Midi message to be performed.
+         */
+        void quickFireMidi(MidiMessage message);
         
         /**
          *  Listener class for when midi output is completed.
@@ -65,6 +75,8 @@ namespace codetta
          */
         void setIsStopping (bool isStoppingRhs);
         
+        void doArcs (const double& elapsedTime);
+        
     private:
         /** Private constructor. */
         MidiOut();
@@ -75,10 +87,10 @@ namespace codetta
         bool isStopping;
         
         /** Reference to the audio source being used. */
-        SoundfontAudioSource& audioSource;
+        CodettaAudioSource& audioSource;
         
-        /** Position of the playhead. */
-        int playhead;
+        /** Position of the playhead and arc head */
+        int playhead, arcHead;
         
         /** Time playback started. */
         double timeStart;

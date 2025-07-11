@@ -42,7 +42,7 @@ namespace juckly
         updateTabs();
     }
     
-    void Toolbox::addBlock (const String& categoryName, const Block* block)
+    void Toolbox::addBlock (const String& categoryName, const std::shared_ptr<Block>& block)
     {
         // find category by it's name
         int categoryID = -1;
@@ -61,13 +61,16 @@ namespace juckly
             jassert(false);
         }
         
+        // Add the block to our owned array for tracking
+        blocks.push_back (block);
         
         // Add the block to our ID tracker
-        IDTracker::getInstance().addBlock (block->getID(), block->getToolboxIcon());
+        IDTracker::getInstance().addBlock (blocks.back()->getID(),
+                                           blocks.back()->getToolboxIcon());
         
         // Add that ID to the toolbar corresponding to this category
         toolbars[categoryID]->addItem(categorys[categoryID]->itemFactory,
-                                      IDTracker::getInstance().getIntID (block->getID()));
+                                      IDTracker::getInstance().getIntID (blocks.back()->getID()));
         
         updateTabs();
     }
@@ -86,8 +89,28 @@ namespace juckly
             else
             {
                 toolbars[i]->setVisible (true);
+                LOG_STRING (newCurrentTabName + " tab selected");
             }
         }
+    }
+    
+    void Toolbox::changeCategoryName (const String& oldCategoryName,
+                                      const String& newCategoryName)
+    {
+        bool contained = false;
+        for (int i = 0; i < categorys.size(); i++)
+        {
+            if (categorys[i]->name == oldCategoryName)
+            {
+                contained = true;
+                categorys[i]->name = newCategoryName;
+            }
+        }
+        
+        // You are tyring to change the name of a category that dosen't exist!
+        jassert (contained);
+        
+        updateTabs();
     }
     
     void Toolbox::updateTabs()

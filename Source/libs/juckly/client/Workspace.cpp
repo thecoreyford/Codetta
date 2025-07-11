@@ -25,13 +25,20 @@ namespace juckly
         bin.setImage (ImageCache::getFromMemory(BinaryData::binClosed_png,
                                         BinaryData::binClosed_pngSize));
         addAndMakeVisible (bin);
+        binIsShrunk = false; // presume normal size
         
         // clear block arrays
         startBlocks.clear();
         blocks.clear();
         
+        lastAddedBlock = nullptr;
+        
         // Setup workspace size to match background 
         setSize (background.getWidth(), background.getHeight());
+        
+        #ifdef CODETTA
+            addAndMakeVisible (codetta::Arcs::get());
+        #endif
     }
     
     Workspace::~Workspace()
@@ -54,10 +61,24 @@ namespace juckly
         constrainer.setMinimumOnscreenAmounts (getHeight(), getWidth(),
                                                getHeight(), getWidth());
         
+        #ifdef CODETTA
+            codetta::Arcs::get().setBounds (getLocalBounds());
+        #endif
+        
+        // Set bin bounds based on if shrunken.
         auto binBounds = visibleBounds;
-        binBounds.removeFromTop(visibleBounds.getHeight() - 108);
-        binBounds.removeFromRight(visibleBounds.getWidth() - 84);
+        if (binIsShrunk)
+        {
+            binBounds.removeFromTop(visibleBounds.getHeight() - 64);
+            binBounds.removeFromRight(visibleBounds.getWidth() - 52);
+        }
+        else
+        {
+            binBounds.removeFromTop(visibleBounds.getHeight() - 108);
+            binBounds.removeFromRight(visibleBounds.getWidth() - 84);
+        }
         bin.setBounds (binBounds);
+
     }
     
     bool Workspace::isInterestedInDragSource (const SourceDetails& dragSourceDetails)
@@ -74,35 +95,8 @@ namespace juckly
         
         // Use factory to create blocks matching description
         auto block = blockFactory->doMakeBlock (description);
-        
-        // Test for global blocks first before doing anything else!
-        if (block->isGlobalState())
-        {
-            // check to see that it hasn't already been added
-            bool inArray = false;
-            for (auto b : startBlocks)
-            {
-                if (b->getID() == description)
-                {
-                    inArray = true;
-                }
-            }
-            
-            // if it hasn't already been added
-            if (inArray == false)
-            {
-                // place it at the front of our playback
-                startBlocks.insert (0, block);
-                startBlocks[0]->setConstrainer (&constrainer);
-                startBlocks[0]->setBounds (0, 0, block->getScaling().getWidth(),
-                                           block->getScaling().getHeight());
-                startBlocks[0]->setCentrePosition (dragSourceDetails.localPosition);
-                startBlocks[0]->setListener (this);
-                addAndMakeVisible (startBlocks[0]);
-            }
-        }
-        else
-        {
+        jassert (block != nullptr); // a block object must have been returned!
+
             if (block->getConnection().isStartNode())
             {
                 startBlocks.add (block);
@@ -123,7 +117,28 @@ namespace juckly
                 blocks.getLast()->setListener (this);
                 addAndMakeVisible (blocks.getLast());
             }
+
+        //----------------------------------------------------------------------
+        // HOTFIX: block not connected when first added
+        // Basically, allthough updated in the constructor of Block.cpp,
+        // the left and right connection rectangles (bounds) are not updated
+        // on creation here. Hence, we get the block...
+        Block* componentToDrag = nullptr;
+        if (block->getConnection().isStartNode()){
+            componentToDrag = startBlocks.getLast();
+            lastAddedBlock = startBlocks.getLast();
         }
+        else{
+            componentToDrag = blocks.getLast();
+            lastAddedBlock = blocks.getLast();
+        }
+        // ... and set the connections based on itself!
+        componentToDrag->getManipulator()->setConnections(componentToDrag);
+        //----------------------------------------------------------------------
+        
+        #ifdef CODETTA
+        codetta::UndoWidget::get().updateUndoStack();
+        #endif
     }
     
     void Workspace::checkCollisions (Block* block, bool isMouseDrag)
@@ -137,6 +152,8 @@ namespace juckly
             }
             else
             {
+                jassert(block != NULL);
+                jassert(otherBlock != NULL);
                 checkAllConnections (block, otherBlock);
             }
         }
@@ -155,8 +172,9 @@ namespace juckly
         }
         
         // Compare the block with the bin component
-        if (block->getBoundsInParent().intersects (bin.getBoundsInParent()))
+        if ((block->isLoadingIn() == false) && block->getBoundsInParent().intersects (bin.getBoundsInParent()))
         {
+            const String type = block->getID(); //for data logging
             if (isMouseDrag)
             {
                 bin.setImage (ImageCache::getFromMemory (BinaryData::binOpen_png,
@@ -182,8 +200,11 @@ namespace juckly
                     }
                 } while (currentBlock != nullptr);
                 #ifdef CODETTA
+                    codetta::ContextTracker::get().cleanLastUsed();
                     codetta::InfoBar::get().updateContents ("Deleted!");
+                    codetta::UndoWidget::get().updateUndoStack();
                 #endif
+                LOG_STRING (type + " was deleted");
             }
         }
         
@@ -201,27 +222,31 @@ namespace juckly
         auto& blockMan = block->getManipulator();
         auto& otherBlockMan = otherBlock->getManipulator();
         
-        // check input touching output
-        if(blockMan->hasInput() && otherBlockMan->hasOutput())
+        // incase when loading the block manipulator isn't created
+        if (blockMan.get() != nullptr && otherBlockMan.get() != nullptr)
         {
-            ifPossibleSnapBlocks(otherBlock, block);
-        }
-        
-        // check output touching input
-        if(blockMan->hasOutput() && otherBlockMan->hasInput())
-        {
-            ifPossibleSnapBlocks(block, otherBlock);
-        }
-        
-        // Check parameter blocks touching
-        if (blockMan->isParam() && otherBlock->willTakeParam())
-        {
-            auto movingBounds = block->getManipulator()->getParam();
-            auto otherBounds = otherBlock->getBounds().toFloat();
-            if (movingBounds.intersects (otherBounds))
+            // check input touching output
+            if(blockMan->hasInput() && otherBlockMan->hasOutput())//look at this :(
             {
-                block->setVisible(false);
-                otherBlock->getBlockParam().addInternalParam (block);
+                ifPossibleSnapBlocks(otherBlock, block);
+            }
+
+            // check output touching input
+            if(blockMan->hasOutput() && otherBlockMan->hasInput())
+            {
+                ifPossibleSnapBlocks(block, otherBlock);
+            }
+
+            // Check parameter blocks touching
+            if (blockMan->isParam() && otherBlock->willTakeParam())
+            {
+                auto movingBounds = block->getManipulator()->getParam();
+                auto otherBounds = otherBlock->getBounds().toFloat();
+                if (movingBounds.intersects (otherBounds))
+                {
+                    block->setVisible(false);
+                    otherBlock->getBlockParam().addInternalParam (block);
+                }
             }
         }
     }
@@ -277,6 +302,8 @@ namespace juckly
                                                         + lhsBlock->getID() + " and "
                                                         + rhsBlock->getID() + "!");
             #endif
+            LOG_STRING ("Connection made between "
+                        + lhsBlock->getID() + " and " + rhsBlock->getID());
         }
     }
     
@@ -328,6 +355,13 @@ namespace juckly
             }
         }
     }
+    
+    void Workspace::setBinIsShrunk (bool binShrunk)
+    {
+        binIsShrunk = binShrunk;
+        resized();
+    }
+    
     //==========================================================================
     
     const OwnedArray<Block>& Workspace::getStartBlocks() const
@@ -335,11 +369,88 @@ namespace juckly
         return startBlocks;
     }
 
+    const OwnedArray<Block>& Workspace::getOtherBlocks() const
+    {
+        return blocks;
+    }
+
     //==========================================================================
     
     void Workspace::setVisibleBounds (Rectangle<int> visibleBoundsRhs)
     {
         visibleBounds = visibleBoundsRhs;
+    }
+
+    //==========================================================================
+
+    void Workspace::clearWorkstation()
+    {
+        startBlocks.clearQuick(true);
+        blocks.clearQuick(true);
+    }
+
+    void Workspace::mouseDown (const MouseEvent& e)
+    {
+        // Store where the co-ordinates where block should be pasted (for async)
+        Clipboard::get().setPasteCoords(e.getMouseDownPosition());
+
+        // if right clicked give the option to paste
+        if (ModifierKeys::currentModifiers.isCtrlDown()
+            || ModifierKeys::currentModifiers.isRightButtonDown())
+        {
+            PopupMenu menu;
+            menu.addItem (1, "Paste");
+            menu.showMenuAsync(PopupMenu::Options(), [&](int result){
+                if (result == 1)
+                {
+                    auto& copiedItem = Clipboard::get().paste();
+                    if (copiedItem != nullptr)
+                    {
+                        injectBlockFromDescription(copiedItem,
+                                                   Clipboard::get().getPasteCoords());
+                        LOG_STRING ("Block "
+                                    + copiedItem->getStringAttribute("id")
+                                    + " pasted");
+                    }
+                }
+              
+            });
+        }
+    }
+
+    void Workspace::injectBlockFromDescription(std::unique_ptr<XmlElement>& item,
+                                               const Point<int>& pasteCoords)
+    {
+        if (item != nullptr)
+        {
+            // turn paste XML into source details
+            DragAndDropTarget::SourceDetails blockSource
+                                            (item->getStringAttribute("id"),
+                                             nullptr, pasteCoords);
+            
+            // add block
+            itemDropped (blockSource);
+                                   
+            // load block specific stuff!
+            getLastAddedBlock()->doSaveOrLoad (item.get(), juckly::Block::FileManipulator::load);
+            
+            //----------------------------------------------------------
+            // do connections also ... (for each start block)...
+            for (int i = 0 ; i < startBlocks.size(); ++i) {
+                auto current = startBlocks[i];
+                bool isNull = true;
+                do {
+                    isNull = true; // presume we are pointing to null
+                    if (current != nullptr)
+                    {
+                        isNull = false;
+                        checkCollisions (current, false);
+                        current = current->getConnection().getNextNode();
+                    }
+                } while (!isNull);
+            }
+            //----------------------------------------------------------
+        }
     }
 
 } // namespace juckly

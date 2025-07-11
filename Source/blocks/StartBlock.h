@@ -36,16 +36,33 @@ namespace codetta
                  false
                  ) { }
         
-        /** Initialises all playback settings. */
+        /** First time initialisation of  all playback settings. */
         void doAction() override
         {
-            PlaybackSettings::get().setBPM (PlaybackSettings::get().getGlobalTempo());
-            PlaybackSettings::get().setCurrentClef (MusiSyncEng::ClefTypes::Treble);
-            PlaybackSettings::get().setInstrument (PlaybackSettings::Instrument::piano);
             PlaybackSettings::get().setLatestTimestampAddition (0);
             PlaybackSettings::get().clearAllStartRepeats();
+            PlaybackSettings::get().registerStartRepeat (this);
+            PlaybackSettings::get().setTuningOffset (0);
+            PlaybackSettings::get().setBPM (PlaybackSettings::get().getGlobalTempo());
+            doResets();
+        }
+        
+        /** Resets block defaults */
+        void doResets()
+        {
+            PlaybackSettings::get().setCurrentClef (MusiSyncEng::ClefTypes::Treble);
+            PlaybackSettings::get().setInstrument (PlaybackSettings::Instrument::piano);
             PlaybackSettings::get().setVelocity (63);
         }
+        
+        //======================================================================
+        
+        /**
+         *  Contains info for saving and loading an start block
+         *  @param the head element for this block
+         *  @param if save or load should be performed
+         */
+         void doSaveOrLoad (XmlElement* blockHead, FileManipulator mode) override{}
     };
     
 } // namespace codetta

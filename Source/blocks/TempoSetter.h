@@ -13,6 +13,8 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "../audio/Audio.h"
 #include "../libs/juckly/client/Block.h"
+#include "../data-logger/DataLogger.h"
+#include "../gui/widgets/UndoWidget.h"
 #include "BlockSlider.h"
 
 /** Main namespace for codetta. */
@@ -35,6 +37,23 @@ namespace codetta
                                          )
                                         )
         {
+            auto slider = dynamic_cast<BlockSlider*>(getInternalUI());
+            slider->onValueChanged = [this]
+            {
+                // Update the undo stack
+//                codetta::UndoWidget::get().updateUndoStack();
+                
+                #ifdef USE_LOGGING
+                // Log information
+                auto slider = dynamic_cast<BlockSlider*>(getInternalUI());
+                auto prev = PlaybackSettings::get().getBPM();
+                if (prev > slider->getValue())
+                    LOG_STRING (getID() + " slider decremented");
+                else
+                    LOG_STRING (getID() + " slider incremented");
+                prev = slider->getValue();
+                #endif
+            };
         }
         
         /** Changes the tempo to the slider value. */
@@ -47,6 +66,29 @@ namespace codetta
                 PlaybackSettings::get().setBPM (tempo->getValue());
         }
         
+        //======================================================================
+        
+        /**
+         *  Contains info for saving and loading the tempo setters internal data
+         *  @param the head element for this block
+         *  @param if save or load should be performed
+         */
+         void doSaveOrLoad (XmlElement* blockHead, FileManipulator mode) override
+         {
+             auto tempo = dynamic_cast<BlockSlider*>(getInternalUI());
+             
+             if (mode == FileManipulator::save)
+             {
+                 blockHead->setAttribute ("bpm",
+                                          tempo->getValue());
+             }
+          
+             //=================================================================
+          
+             if (mode == FileManipulator::load)
+                tempo->setValue (blockHead->getIntAttribute("bpm"));
+             
+         }
     private:
     };
     

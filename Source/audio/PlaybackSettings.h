@@ -146,6 +146,7 @@ namespace codetta
             basoon = 13,
             flute = 14,
             pad = 15,
+            total = 16
         };
         
         /**
@@ -174,6 +175,31 @@ namespace codetta
          */
         int getVelocity() const;
         
+        //======================================================================
+        
+        /**
+         *  Setter for the current tuning offset.
+         *  @param the new tuning offset value.
+         */
+        void setTuningOffset (int newTuningOffset);
+        
+        /**
+         *  Getter for the current tuning offset.
+         *  @return the current tuning offset.
+         */
+        int getTuningOffset() const;
+        
+        int getTuningOffsetCMajorMIDIValue (int midiValueToOffset)
+        {
+            MusiSyncEng::OffsetMappings map;
+            auto scale = map.getMajorScale();
+            
+            // The note is not in the scale! Oh NO!
+            jassert (scale.contains (midiValueToOffset));
+
+            return scale.getUnchecked (scale.indexOf (midiValueToOffset) + tuningOffset);
+        }
+        
     private:
         /** Private constructor. */
         PlaybackSettings();
@@ -196,7 +222,7 @@ namespace codetta
         //======================================================================
         
         /** Current tempo and velocity for playback */
-        int bpm, globalBPM, velocity;
+        int bpm, globalBPM, velocity, tuningOffset;
         
         /** The last timestamp added to a sequence. */
         float latestTimestampAddition;

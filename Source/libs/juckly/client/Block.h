@@ -11,13 +11,26 @@
 #pragma once
 
 #include "../../../../JuceLibraryCode/JuceHeader.h"
+#include "../../../data-logger/DataLogger.h"
 #include "../block/BlockManipulator.h"
 #include "../block/BlockManipulatorFactory.h"
 #include "../block/Connection.h"
 #include "../block/BlockScaling.h"
 #include "../block/BlockGUI.h"
 #include "../block/BlockParamHole.h"
+#include "../block/Clipboard.h"
 #include "BlockSettings.h"
+
+//==============================================================================
+
+#define CODETTA 0 //< add macro so that the libs folder can remain clean for
+                  // potentially releasing as an API.
+#ifdef CODETTA
+    #include "../../../gui/widgets/ContextTracker.h"
+    #include "../../../gui/widgets/UndoWidget.h"
+#endif
+
+//==============================================================================
 
 //==============================================================================
 
@@ -37,7 +50,7 @@ namespace juckly
          *  @param toolboxIconRhs is the image displayed in the toolbar.
          *  @param workspaceImageRhs is the image displayed behind the internalUI. 
          *  @param blockType is the way this block should interact with other blocks.
-         *  @param isStartNode is true if this block should be a starting block.
+         *  @param isStartNodeRhs is true if this block should be a starting block.
          *  @param internalUIRhs is the component encased within this block: if nullptr,
          *             is passed no component is added.
          *  @param isGlobalRhs determins if this block is only for a one time call.
@@ -47,7 +60,7 @@ namespace juckly
                Image toolboxIconRhs,
                Image workspaceImageRhs,
                BlockType blockType,
-               bool isStartNode,
+               bool isStartNodeRhs,
                Component* iternalUIRhs,
                bool takesParamRhs,
                const int width = 130,
@@ -199,6 +212,23 @@ namespace juckly
          */
         virtual void doAction() = 0;
         
+        /** Wheather save or load is called. */
+        enum FileManipulator
+        {
+            save,
+            load
+        };
+        
+        /**
+         *  The code used to store information, and set information, for this block's internal UI.
+         *
+         *  Save information from your internal UI in an XML readable format, so that on load it can be
+         *  updated using your internal components setters!
+         *  @param head element for this block
+         *  @param flag for whether the funtion is calling the save or load function.
+         */
+        virtual void doSaveOrLoad (XmlElement* blockHead, FileManipulator mode) = 0;
+        
         //======================================================================
         //  Other
         
@@ -231,6 +261,26 @@ namespace juckly
          *  @return the blocks global state.
          */
         const bool& isGlobalState() const;
+        
+        /**
+         *  Getter for if the block is start node.
+         *  @return if the block is a start node or not.
+         */
+        const bool& isStartBlock() const;
+        
+        //======================================================================
+        
+        /**
+         *  Set if this block is loading in or not.
+         *  @param if the block is loading in or not.
+         */
+        void setLoading (bool newLoading);
+
+        /**
+         *  Getter for if this block is currently loading in or not.
+         *  @return if the block is a loading in or not.
+         */
+        const bool& isLoadingIn() const;
        
     private:
         
@@ -273,8 +323,14 @@ namespace juckly
         /** Unique identifier for the block. */
         const String blockID;
         
+        /** Whether this block is a start node or not. */
+        bool isStartNode;
+        
         /** Determins if this block is a one use item */
         bool isGlobal;
+        
+        /** Wheather this block is  being loaded in or not. */
+        bool loadingIn;
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Block)
     };
 } // namespace juckly 
