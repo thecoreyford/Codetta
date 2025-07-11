@@ -22,7 +22,7 @@ namespace codetta
     /**
      *  Class containing all audio processes.
      */
-    class Audio :   public AudioIODeviceCallback
+    class Audio //:   public juce::AudioIODeviceCallback
     {
     public:
         
@@ -48,28 +48,28 @@ namespace codetta
     
         //======================================================================
 
-        /**
-         *  Callback for each audio buffer.
-         *  @param inputChannel data is the samples flowing into our buffer.
-         *  @param numInputChannels is the number of avaliable audio channels input.
-         *  @param outputChannelData is the samples to leave from the callback.
-         *  @param numOutputChannels is the number of remaing audio channels.
-         *  @param numSamples is the number of samples contained within each buffer.
-         */
-        void audioDeviceIOCallback (const float** inputChannelData,
-                                    int numInputChannels,
-                                    float** outputChannelData,
-                                    int numOutputChannels,
-                                    int numSamples) override;
-        
-        /**
-         *  Called before the audioDeviceIOCallback, for intialisation.
-         *  @param the audioIODevice intialised.
-         */
-        void audioDeviceAboutToStart (AudioIODevice* device) override;
-        
-        /** Called once the audioDeviceIOCallback has finished, for releasing. */
-        void audioDeviceStopped() override;
+//        /**
+//         *  Callback for each audio buffer.
+//         *  @param inputChannel data is the samples flowing into our buffer.
+//         *  @param numInputChannels is the number of avaliable audio channels input.
+//         *  @param outputChannelData is the samples to leave from the callback.
+//         *  @param numOutputChannels is the number of remaing audio channels.
+//         *  @param numSamples is the number of samples contained within each buffer.
+//         */
+//        void audioDeviceIOCallback (const float** inputChannelData,
+//                                    int numInputChannels,
+//                                    float** outputChannelData,
+//                                    int numOutputChannels,
+//                                    int numSamples) override;
+//        
+//        /**
+//         *  Called before the audioDeviceIOCallback, for intialisation.
+//         *  @param the audioIODevice intialised.
+//         */
+//        void audioDeviceAboutToStart (AudioIODevice* device) override;
+//        
+//        /** Called once the audioDeviceIOCallback has finished, for releasing. */
+//        void audioDeviceStopped() override;
         
         //======================================================================
         
@@ -102,7 +102,7 @@ namespace codetta
         AudioDeviceManager audioDeviceManager;
         
         /** Player for our audio source objects. */
-        AudioSourcePlayer audioSourcePlayer;
+        juce::AudioSourcePlayer audioSourcePlayer;
         
         //======================================================================
         

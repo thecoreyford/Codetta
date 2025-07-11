@@ -22,13 +22,15 @@ namespace codetta
         audioSourcePlayer.setSource (&soundfontAudioSource);
         
         // add the audio callback
-        audioDeviceManager.addAudioCallback (this);
+//        audioDeviceManager.addAudioCallback (this);
+        audioDeviceManager.addAudioCallback(&audioSourcePlayer);
     }
     
     Audio::~Audio()
     {
         audioSourcePlayer.setSource (nullptr);
-        audioDeviceManager.removeAudioCallback (this);
+//        audioDeviceManager.removeAudioCallback (this);
+        audioDeviceManager.removeAudioCallback(&audioSourcePlayer);
     }
     
     //======================================================================
@@ -46,28 +48,28 @@ namespace codetta
     
     //==========================================================================
 
-    void Audio::audioDeviceAboutToStart (AudioIODevice* device)
-    {
-        audioSourcePlayer.audioDeviceAboutToStart (device);
-    }
-    
-    void Audio::audioDeviceIOCallback (const float** inputChannelData,
-                                       int numInputChannels,
-                                       float** outputChannelData,
-                                       int numOutputChannels,
-                                       int numSamples)
-    {
-        audioSourcePlayer.audioDeviceIOCallback (inputChannelData,
-                                                 numInputChannels,
-                                                 outputChannelData,
-                                                 numOutputChannels,
-                                                 numSamples);
-    }
-    
-    void Audio::audioDeviceStopped()
-    {
-        audioSourcePlayer.audioDeviceStopped();
-    }
+//    void Audio::audioDeviceAboutToStart (AudioIODevice* device)
+//    {
+//        audioSourcePlayer.audioDeviceAboutToStart (device);
+//    }
+//    
+//    void Audio::audioDeviceIOCallback (const float** inputChannelData,
+//                                       int numInputChannels,
+//                                       float** outputChannelData,
+//                                       int numOutputChannels,
+//                                       int numSamples)
+//    {
+//        audioSourcePlayer.audioDeviceIOCallback (inputChannelData,
+//                                                 numInputChannels,
+//                                                 outputChannelData,
+//                                                 numOutputChannels,
+//                                                 numSamples);
+//    }
+//    
+//    void Audio::audioDeviceStopped()
+//    {
+//        audioSourcePlayer.audioDeviceStopped();
+//    }
     
     //==========================================================================
     

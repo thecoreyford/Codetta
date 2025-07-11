@@ -47,37 +47,38 @@ namespace codetta
             tutorials.addItem (4, "Tutorial 4 - Pitch");
             tutorials.addItem (5, "Hide Tutorials");
 
-            const int result = tutorials.show();
-            
-            if (result != 0 && result != 5)
-                tutIsShowing = true;
-            
-            if (result == 1){
-                browser.goToURL ("https://thecoreyford.github.io/codetta/tutorials/tutorial1");
-                infoBar.updateContents ("Tutorial 1 - Basics");
-            }
-            
-            if (result == 2) {
-                browser.goToURL ("https://thecoreyford.github.io/codetta/tutorials/tutorial2");
-                infoBar.updateContents ("Tutorial 2 - Time");
-            }
-            
-            if (result == 3) {
-                browser.goToURL ("https://thecoreyford.github.io/codetta/tutorials/tutorial3");
-                infoBar.updateContents ("Tutorial 3 - Timbre");
-            }
-            
-            if (result == 4) {
-                browser.goToURL ("https://thecoreyford.github.io/codetta/tutorials/tutorial4");
-                infoBar.updateContents ("Tutorial 4 - Pitch");
-            }
-            
-            if (result == 5 || result == 0) {
-                infoBar.updateContents();
-                tutIsShowing = false;
-            }
+            tutorials.showMenuAsync(juce::PopupMenu::Options(),[this](int result)
+            {
+                if (result != 0 && result != 5)
+                    tutIsShowing = true;
+                
+                if (result == 1){
+                    browser.goToURL ("https://thecoreyford.github.io/codetta/tutorials/tutorial1");
+                    infoBar.updateContents ("Tutorial 1 - Basics");
+                }
+                
+                if (result == 2) {
+                    browser.goToURL ("https://thecoreyford.github.io/codetta/tutorials/tutorial2");
+                    infoBar.updateContents ("Tutorial 2 - Time");
+                }
+                
+                if (result == 3) {
+                    browser.goToURL ("https://thecoreyford.github.io/codetta/tutorials/tutorial3");
+                    infoBar.updateContents ("Tutorial 3 - Timbre");
+                }
+                
+                if (result == 4) {
+                    browser.goToURL ("https://thecoreyford.github.io/codetta/tutorials/tutorial4");
+                    infoBar.updateContents ("Tutorial 4 - Pitch");
+                }
+                
+                if (result == 5 || result == 0) {
+                    infoBar.updateContents();
+                    tutIsShowing = false;
+                }
 
-            resized();
+                resized();
+            });
         };
         
         //======================================================================

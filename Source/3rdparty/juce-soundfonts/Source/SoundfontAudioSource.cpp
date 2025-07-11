@@ -29,7 +29,7 @@ SoundfontAudioSource::~SoundfontAudioSource()
 
 void SoundfontAudioSource::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
-    fluid_synth_set_sample_rate(synth, (float) sampleRate);ƒ
+    fluid_synth_set_sample_rate(synth, (float) sampleRate);//ƒ
 }
 
 void SoundfontAudioSource::releaseResources()

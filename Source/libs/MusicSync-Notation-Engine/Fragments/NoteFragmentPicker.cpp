@@ -30,14 +30,17 @@ namespace MusiSyncEng
                 codetta::InfoBar::get().updateContents ("Note picker clicked!");
             #endif
             
-            const int result = menu.show();
-            if (listener != nullptr)
-                listener->onFragmentSelected ((Fragment)(result-1));
-            
-            #ifdef CODETTA
-            if (result == 0)
-                codetta::InfoBar::get().updateContents();
-            #endif
+            menu.showMenuAsync(juce::PopupMenu::Options(), [this](int result)
+            {
+                if (listener != nullptr && result > 0)
+                    listener->onFragmentSelected(static_cast<Fragment>(result - 1));
+
+                #ifdef CODETTA
+                if (result == 0)
+                    codetta::InfoBar::get().updateContents();
+                #endif
+            });
+
         };
     }
     
