@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['major',['major',['../struct___s_f_version.html#a75680ec3b4b3f16cb131d8b32661723a',1,'_SFVersion']]],
+  ['max',['max',['../struct__fluid__gen__info__t.html#a9de8e5d8146a85057911236b4ec15acf',1,'_fluid_gen_info_t::max()'],['../structfluid__num__setting__t.html#a1d7f8881c549ac4d72ae17a8eb9f7987',1,'fluid_num_setting_t::max()'],['../structfluid__int__setting__t.html#a4940d2f386ecd32e8ed295fc15fa685a',1,'fluid_int_setting_t::max()'],['../struct__fluid__env__data__t.html#a15e036b9f52eb8af6169b785e3f3a6bc',1,'_fluid_env_data_t::max()']]],
+  ['midi_5fchannels',['midi_channels',['../struct__fluid__synth__t.html#a4ce77034120fa2551b3250946bbf6042',1,'_fluid_synth_t']]],
+  ['min',['min',['../struct__fluid__gen__info__t.html#ade2865af096a3fed0cfc879e90142058',1,'_fluid_gen_info_t::min()'],['../structfluid__num__setting__t.html#a534cf4d728c45b49a0ea491d98872de7',1,'fluid_num_setting_t::min()'],['../structfluid__int__setting__t.html#a0b7fa3ce56f8ef5272414588fe220407',1,'fluid_int_setting_t::min()'],['../struct__fluid__env__data__t.html#ab041e37f198c03d8400c4baa961fbdbb',1,'_fluid_env_data_t::min()']]],
+  ['min_5fattenuation_5fcb',['min_attenuation_cB',['../struct__fluid__voice__t.html#a15f2c6d746c34d262046d512f34c660b',1,'_fluid_voice_t']]],
+  ['min_5fnote_5flength_5fticks',['min_note_length_ticks',['../struct__fluid__synth__t.html#a08ef94fb04d2219ec10bdd1f87d50209',1,'_fluid_synth_t']]],
+  ['minor',['minor',['../struct___s_f_version.html#afbe4dedad275a3d60e290874a5b61113',1,'_SFVersion']]],
+  ['mod',['mod',['../struct__fluid__gen__t.html#a19ffa472a4f6f1f7cb83359a7105c37e',1,'_fluid_gen_t::mod()'],['../struct___s_f_zone.html#ae061f0cdd6efe03bb14fa35cc338cf17',1,'_SFZone::mod()'],['../struct__fluid__preset__zone__t.html#ac47759c0943fd3359d8fc8e2a0713f18',1,'_fluid_preset_zone_t::mod()'],['../struct__fluid__inst__zone__t.html#a48594ce065f222b49680bc332c9fc2d9',1,'_fluid_inst_zone_t::mod()'],['../struct__fluid__voice__t.html#a552c78de071a27c5648387afe3e26b3a',1,'_fluid_voice_t::mod()']]],
+  ['mod_5fcount',['mod_count',['../struct__fluid__voice__t.html#a2803ecd3cd10950e77bb64179fa73a44',1,'_fluid_voice_t']]],
+  ['modenv_5fcount',['modenv_count',['../struct__fluid__voice__t.html#a6132faa254c63619e4f95e4e7cc94eb5',1,'_fluid_voice_t']]],
+  ['modenv_5fdata',['modenv_data',['../struct__fluid__voice__t.html#a42518379fa90253f6e9dc09c7c632864',1,'_fluid_voice_t']]],
+  ['modenv_5fsection',['modenv_section',['../struct__fluid__voice__t.html#a7a887174c3735b6f42b740d9a8c9d6be',1,'_fluid_voice_t']]],
+  ['modenv_5fto_5ffc',['modenv_to_fc',['../struct__fluid__voice__t.html#a08e5edf48d3a27c0252ee8abefc9ff85',1,'_fluid_voice_t']]],
+  ['modenv_5fto_5fpitch',['modenv_to_pitch',['../struct__fluid__voice__t.html#a45a2afb0b25e16cd4432b3dc62129684',1,'_fluid_voice_t']]],
+  ['modenv_5fval',['modenv_val',['../struct__fluid__voice__t.html#a20f8a16cec2762ac1daa5692f7934152',1,'_fluid_voice_t']]],
+  ['modlfo_5fdelay',['modlfo_delay',['../struct__fluid__voice__t.html#af6ecde5e1eaa51365869697aab048dc4',1,'_fluid_voice_t']]],
+  ['modlfo_5fincr',['modlfo_incr',['../struct__fluid__voice__t.html#a6671fc201acaab4478228cd46d59f1eb',1,'_fluid_voice_t']]],
+  ['modlfo_5fto_5ffc',['modlfo_to_fc',['../struct__fluid__voice__t.html#acea57a591228f79b2e49afe326b36747',1,'_fluid_voice_t']]],
+  ['modlfo_5fto_5fpitch',['modlfo_to_pitch',['../struct__fluid__voice__t.html#a519808d74a9de3d624a7a7bda14743b2',1,'_fluid_voice_t']]],
+  ['modlfo_5fto_5fvol',['modlfo_to_vol',['../struct__fluid__voice__t.html#aeff4063ebf61d074201890f63391e65a',1,'_fluid_voice_t']]],
+  ['modlfo_5fval',['modlfo_val',['../struct__fluid__voice__t.html#a2ce70c53b87b9ab87cf1dc360863daee',1,'_fluid_voice_t']]],
+  ['modndx',['modndx',['../struct___s_f_bag.html#a6051b8dda6779c4bb0eeb82c287cbccf',1,'_SFBag']]],
+  ['modulation_5fperiod_5fsamples',['modulation_period_samples',['../struct__fluid__chorus__t.html#a2fd9afc73f51a308c225741ae21f3a9f',1,'_fluid_chorus_t']]],
+  ['morph',['morph',['../struct___s_f_preset.html#a8a996531692bb67fd45eac98ddee7451',1,'_SFPreset']]],
+  ['morphology',['morphology',['../struct___s_f_phdr.html#aa475073949ca37f7bccd07c312f398e2',1,'_SFPhdr']]]
+];

@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="Zoj677" name="Codetta" projectType="guiapp" jucerFormatVersion="1">
+  <MAINGROUP id="iK6Osv" name="Codetta">
+    <GROUP id="{95EF1FB4-C0FB-BE26-A425-EFDCC87CEF6F}" name="3rdparty">
+      <GROUP id="{60F30528-355D-9BF1-4E9D-517B4E1F163B}" name="juce-soundfonts">
+        <GROUP id="{B07DBFB7-B710-D901-1FE5-9F3D59313FBA}" name="Soundfonts">
+          <FILE id="xWzIgF" name="GMSoundFont.sf2" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Soundfonts/GMSoundFont.sf2"
+                xcodeResource="1"/>
+        </GROUP>
+        <GROUP id="{8A92CE29-86A1-063A-8DFC-C89C601B866E}" name="Source">
+          <GROUP id="{AF4F214D-A971-A7D6-23B9-C2F97E8E1FB0}" name="Fluidlite">
+            <GROUP id="{0246305F-1D0F-53DE-E13D-A37A245126B6}" name="include">
+              <GROUP id="{FD1CEE8F-2E24-74BF-87DE-CFAC52AA2598}" name="fluidsynth">
+                <FILE id="q3krgH" name="gen.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/include/fluidsynth/gen.h"/>
+                <FILE id="QgHT4f" name="log.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/include/fluidsynth/log.h"/>
+                <FILE id="rNHASS" name="misc.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/include/fluidsynth/misc.h"/>
+                <FILE id="AGwu7Z" name="mod.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/include/fluidsynth/mod.h"/>
+                <FILE id="cJminO" name="ramsfont.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/include/fluidsynth/ramsfont.h"/>
+                <FILE id="X8ck9H" name="settings.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/include/fluidsynth/settings.h"/>
+                <FILE id="uRci3I" name="sfont.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/include/fluidsynth/sfont.h"/>
+                <FILE id="Cf2K2q" name="synth.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/include/fluidsynth/synth.h"/>
+                <FILE id="jwblos" name="types.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/include/fluidsynth/types.h"/>
+                <FILE id="WifxUt" name="version.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/include/fluidsynth/version.h"/>
+                <FILE id="btsU1D" name="voice.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/include/fluidsynth/voice.h"/>
+              </GROUP>
+              <FILE id="f3BOFj" name="fluidlite.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/include/fluidlite.h"/>
+            </GROUP>
+            <GROUP id="{32695798-2F96-9E27-4B2E-E515E7D9D4A1}" name="src">
+              <FILE id="yHJMmW" name="fluid_chan.c" compile="1" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_chan.c"/>
+              <FILE id="n8QG9c" name="fluid_chan.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_chan.h"/>
+              <FILE id="rmsSQc" name="fluid_chorus.c" compile="1" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_chorus.c"/>
+              <FILE id="JsG617" name="fluid_chorus.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_chorus.h"/>
+              <FILE id="xMrJyd" name="fluid_config.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_config.h"/>
+              <FILE id="nqvQ5G" name="fluid_conv.c" compile="1" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_conv.c"/>
+              <FILE id="NpzS9H" name="fluid_conv.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_conv.h"/>
+              <FILE id="uJEDbz" name="fluid_defsfont.c" compile="1" resource="0"
+                    file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_defsfont.c"/>
+              <FILE id="cSVW5Z" name="fluid_defsfont.h" compile="0" resource="0"
+                    file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_defsfont.h"/>
+              <FILE id="RdJmmd" name="fluid_dsp_float.c" compile="1" resource="0"
+                    file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_dsp_float.c"/>
+              <FILE id="hzBBCR" name="fluid_dsp_simple.c" compile="1" resource="0"
+                    file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_dsp_simple.c"/>
+              <FILE id="jtVBzV" name="fluid_gen.c" compile="1" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_gen.c"/>
+              <FILE id="SAcSTW" name="fluid_gen.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_gen.h"/>
+              <FILE id="tSxVjH" name="fluid_hash.c" compile="1" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_hash.c"/>
+              <FILE id="vCWkHS" name="fluid_hash.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_hash.h"/>
+              <FILE id="qMiCn8" name="fluid_list.c" compile="1" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_list.c"/>
+              <FILE id="EUJial" name="fluid_list.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_list.h"/>
+              <FILE id="vHYxx3" name="fluid_midi.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_midi.h"/>
+              <FILE id="Zx9NCY" name="fluid_mod.c" compile="1" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_mod.c"/>
+              <FILE id="PxaDGj" name="fluid_mod.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_mod.h"/>
+              <FILE id="RRWM47" name="fluid_phase.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_phase.h"/>
+              <FILE id="tp5DwC" name="fluid_ramsfont.c" compile="1" resource="0"
+                    file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_ramsfont.c"/>
+              <FILE id="zjZIDx" name="fluid_ramsfont.h" compile="0" resource="0"
+                    file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_ramsfont.h"/>
+              <FILE id="D7OOCS" name="fluid_rev.c" compile="1" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_rev.c"/>
+              <FILE id="sqbNx5" name="fluid_rev.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_rev.h"/>
+              <FILE id="nb3d6f" name="fluid_settings.c" compile="1" resource="0"
+                    file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_settings.c"/>
+              <FILE id="gK6Iwp" name="fluid_settings.h" compile="0" resource="0"
+                    file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_settings.h"/>
+              <FILE id="SP87mN" name="fluid_sfont.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_sfont.h"/>
+              <FILE id="XPk9aW" name="fluid_synth.c" compile="1" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_synth.c"/>
+              <FILE id="VaPpRs" name="fluid_synth.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_synth.h"/>
+              <FILE id="SozyLp" name="fluid_sys.c" compile="1" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_sys.c"/>
+              <FILE id="atuvCl" name="fluid_sys.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_sys.h"/>
+              <FILE id="y5Hkll" name="fluid_tuning.c" compile="1" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_tuning.c"/>
+              <FILE id="WMVbLI" name="fluid_tuning.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_tuning.h"/>
+              <FILE id="y7CwLI" name="fluid_voice.c" compile="1" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_voice.c"/>
+              <FILE id="IMi4St" name="fluid_voice.h" compile="0" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluid_voice.h"/>
+              <FILE id="y622fS" name="fluidsynth.c" compile="1" resource="0" file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluidsynth.c"/>
+              <FILE id="xgQBPC" name="fluidsynth_priv.h" compile="0" resource="0"
+                    file="Source/3rdparty/juce-soundfonts/Source/Fluidlite/src/fluidsynth_priv.h"/>
+            </GROUP>
+          </GROUP>
+          <FILE id="rMpZKt" name="SoundfontAudioSource.cpp" compile="1" resource="0"
+                file="Source/3rdparty/juce-soundfonts/Source/SoundfontAudioSource.cpp"/>
+          <FILE id="qjFOjt" name="SoundfontAudioSource.h" compile="0" resource="0"
+                file="Source/3rdparty/juce-soundfonts/Source/SoundfontAudioSource.h"/>
+        </GROUP>
+        <FILE id="DAumJ1" name="Readme.md" compile="0" resource="1" file="Source/3rdparty/juce-soundfonts/Readme.md"/>
+      </GROUP>
+    </GROUP>
+    <GROUP id="{6A0F9C42-C8F8-7820-0134-F267FDE48775}" name="libs">
+      <GROUP id="{3A86F7D7-CDA8-0443-3A8B-2D21B8E686EB}" name="juckly">
+        <GROUP id="{5C040BE0-E9EB-D30D-0199-0ED6B9F0C12C}" name="block">
+          <FILE id="EMZQcV" name="BlockGUI.cpp" compile="1" resource="0" file="Source/libs/juckly/block/BlockGUI.cpp"/>
+          <FILE id="gM5bWS" name="BlockGUI.h" compile="0" resource="0" file="Source/libs/juckly/block/BlockGUI.h"/>
+          <FILE id="qG9pge" name="BlockManipulator.cpp" compile="1" resource="0"
+                file="Source/libs/juckly/block/BlockManipulator.cpp"/>
+          <FILE id="w31k36" name="BlockManipulator.h" compile="0" resource="0"
+                file="Source/libs/juckly/block/BlockManipulator.h"/>
+          <FILE id="Xz1nU5" name="BlockManipulatorFactory.h" compile="0" resource="0"
+                file="Source/libs/juckly/block/BlockManipulatorFactory.h"/>
+          <FILE id="wknU2Y" name="BlockParamHole.cpp" compile="1" resource="0"
+                file="Source/libs/juckly/block/BlockParamHole.cpp"/>
+          <FILE id="GQSLFK" name="BlockParamHole.h" compile="0" resource="0"
+                file="Source/libs/juckly/block/BlockParamHole.h"/>
+          <FILE id="pmrRvk" name="BlockScaling.h" compile="0" resource="0" file="Source/libs/juckly/block/BlockScaling.h"/>
+          <FILE id="Dfvjwt" name="Connection.h" compile="0" resource="0" file="Source/libs/juckly/block/Connection.h"/>
+          <FILE id="DHtTYd" name="DemoBlocks.h" compile="0" resource="0" file="Source/libs/juckly/block/DemoBlocks.h"/>
+        </GROUP>
+        <GROUP id="{23686E80-9A4A-94F9-00DF-D7FBEED7B538}" name="client">
+          <FILE id="Iij4RB" name="Block.cpp" compile="1" resource="0" file="Source/libs/juckly/client/Block.cpp"/>
+          <FILE id="yXJj24" name="Block.h" compile="0" resource="0" file="Source/libs/juckly/client/Block.h"/>
+          <FILE id="cR4O8N" name="BlockFactory.h" compile="0" resource="0" file="Source/libs/juckly/client/BlockFactory.h"/>
+          <FILE id="cmyyqz" name="BlockSettings.h" compile="0" resource="0" file="Source/libs/juckly/client/BlockSettings.h"/>
+          <FILE id="fXZNeP" name="Toolbox.cpp" compile="1" resource="0" file="Source/libs/juckly/client/Toolbox.cpp"/>
+          <FILE id="cNen9p" name="Toolbox.h" compile="0" resource="0" file="Source/libs/juckly/client/Toolbox.h"/>
+          <FILE id="oS9QqB" name="Workspace.cpp" compile="1" resource="0" file="Source/libs/juckly/client/Workspace.cpp"/>
+          <FILE id="xailJH" name="Workspace.h" compile="0" resource="0" file="Source/libs/juckly/client/Workspace.h"/>
+        </GROUP>
+        <GROUP id="{C09E1D9C-6D75-F0D2-1697-C422E46DF8A8}" name="media">
+          <FILE id="hvUwBk" name="binClosed.png" compile="0" resource="1" file="Source/libs/juckly/media/binClosed.png"/>
+          <FILE id="QqRIgB" name="binOpen.png" compile="0" resource="1" file="Source/libs/juckly/media/binOpen.png"/>
+          <FILE id="ETAbiz" name="blankGreen.png" compile="0" resource="1" file="Source/libs/juckly/media/blankGreen.png"/>
+          <FILE id="pzTrc7" name="blankRed.png" compile="0" resource="1" file="Source/libs/juckly/media/blankRed.png"/>
+          <FILE id="avLjE3" name="demoFunctionHolder.png" compile="0" resource="1"
+                file="Source/libs/juckly/media/demoFunctionHolder.png"/>
+          <FILE id="nz7Sde" name="demoSliderIcon.png" compile="0" resource="1"
+                file="Source/libs/juckly/media/demoSliderIcon.png"/>
+          <FILE id="d96RmH" name="desk.jpg" compile="0" resource="1" file="Source/libs/juckly/media/desk.jpg"/>
+          <FILE id="VYMHVI" name="functionBlankBlue.png" compile="0" resource="1"
+                file="Source/libs/juckly/media/functionBlankBlue.png"/>
+          <FILE id="EcMQgP" name="loopingdesk.jpg" compile="0" resource="1" file="Source/libs/juckly/media/loopingdesk.jpg"/>
+          <FILE id="w6ibrD" name="startBlankGreen.png" compile="0" resource="1"
+                file="Source/libs/juckly/media/startBlankGreen.png"/>
+          <FILE id="tUgJum" name="startBlankRed.png" compile="0" resource="1"
+                file="Source/libs/juckly/media/startBlankRed.png"/>
+        </GROUP>
+        <GROUP id="{47C15958-9504-15C6-5616-5F602BB152F2}" name="toolbar">
+          <FILE id="QBphjw" name="IDTracker.cpp" compile="1" resource="0" file="Source/libs/juckly/toolbar/IDTracker.cpp"/>
+          <FILE id="TNH8m9" name="IDTracker.h" compile="0" resource="0" file="Source/libs/juckly/toolbar/IDTracker.h"/>
+          <FILE id="wYnsoH" name="JucklyToolbarItemFactory.cpp" compile="1" resource="0"
+                file="Source/libs/juckly/toolbar/JucklyToolbarItemFactory.cpp"/>
+          <FILE id="yVtjWA" name="JucklyToolbarItemFactory.h" compile="0" resource="0"
+                file="Source/libs/juckly/toolbar/JucklyToolbarItemFactory.h"/>
+          <FILE id="HVWNaE" name="ToolbarBlockIcon.cpp" compile="1" resource="0"
+                file="Source/libs/juckly/toolbar/ToolbarBlockIcon.cpp"/>
+          <FILE id="MNwnUB" name="ToolbarBlockIcon.h" compile="0" resource="0"
+                file="Source/libs/juckly/toolbar/ToolbarBlockIcon.h"/>
+        </GROUP>
+        <FILE id="clxpA7" name="README.md" compile="0" resource="1" file="Source/libs/juckly/README.md"/>
+      </GROUP>
+      <GROUP id="{60AE3BC8-13DD-841C-356A-193DDE5E2467}" name="MusicSync-Notation-Engine">
+        <GROUP id="{799ABDA2-824D-8F05-900D-B69428A299B4}" name="Font">
+          <FILE id="kN8hv4" name="MusiSync.ttf" compile="0" resource="1" file="Source/libs/MusicSync-Notation-Engine/Font/MusiSync.ttf"/>
+          <FILE id="T0hrzW" name="upsideDownQuaver.png" compile="0" resource="1"
+                file="Source/libs/MusicSync-Notation-Engine/Font/upsideDownQuaver.png"/>
+        </GROUP>
+        <GROUP id="{A9F00CDB-DFE8-3C0A-434A-15C14C373990}" name="Fragments">
+          <FILE id="PZOpHD" name="BasicNoteFragments.h" compile="0" resource="0"
+                file="Source/libs/MusicSync-Notation-Engine/Fragments/BasicNoteFragments.h"/>
+          <FILE id="hSLwTd" name="DoubleQuaver.cpp" compile="1" resource="0"
+                file="Source/libs/MusicSync-Notation-Engine/Fragments/DoubleQuaver.cpp"/>
+          <FILE id="DO7nQB" name="DoubleQuaver.h" compile="0" resource="0" file="Source/libs/MusicSync-Notation-Engine/Fragments/DoubleQuaver.h"/>
+          <FILE id="V6rLTr" name="FragmentFactory.h" compile="0" resource="0"
+                file="Source/libs/MusicSync-Notation-Engine/Fragments/FragmentFactory.h"/>
+          <FILE id="gmXixZ" name="NoteFragment.h" compile="0" resource="0" file="Source/libs/MusicSync-Notation-Engine/Fragments/NoteFragment.h"/>
+          <FILE id="KCw8hG" name="NoteFragmentPicker.cpp" compile="1" resource="0"
+                file="Source/libs/MusicSync-Notation-Engine/Fragments/NoteFragmentPicker.cpp"/>
+          <FILE id="jSY0lw" name="NoteFragmentPicker.h" compile="0" resource="0"
+                file="Source/libs/MusicSync-Notation-Engine/Fragments/NoteFragmentPicker.h"/>
+        </GROUP>
+        <FILE id="Ihds5I" name="Bar.cpp" compile="1" resource="0" file="Source/libs/MusicSync-Notation-Engine/Bar.cpp"/>
+        <FILE id="vgmcUI" name="Bar.h" compile="0" resource="0" file="Source/libs/MusicSync-Notation-Engine/Bar.h"/>
+        <FILE id="P0IE0t" name="Font.h" compile="0" resource="0" file="Source/libs/MusicSync-Notation-Engine/Font.h"/>
+        <FILE id="u07DLx" name="Note.cpp" compile="1" resource="0" file="Source/libs/MusicSync-Notation-Engine/Note.cpp"/>
+        <FILE id="LDf295" name="Note.h" compile="0" resource="0" file="Source/libs/MusicSync-Notation-Engine/Note.h"/>
+        <FILE id="dHktBd" name="OffsetMappings.h" compile="0" resource="0"
+              file="Source/libs/MusicSync-Notation-Engine/OffsetMappings.h"/>
+        <FILE id="nWQyBD" name="README.md" compile="0" resource="1" file="Source/libs/MusicSync-Notation-Engine/README.md"/>
+      </GROUP>
+    </GROUP>
+    <GROUP id="{236B6B46-E8AC-C39C-5F7E-484C5C75FE65}" name="audio">
+      <FILE id="aqNT0n" name="Audio.cpp" compile="1" resource="0" file="Source/audio/Audio.cpp"/>
+      <FILE id="yenHnc" name="Audio.h" compile="0" resource="0" file="Source/audio/Audio.h"/>
+      <FILE id="qLY9PI" name="MidiEventList.cpp" compile="1" resource="0"
+            file="Source/audio/MidiEventList.cpp"/>
+      <FILE id="wO85yP" name="MidiEventList.h" compile="0" resource="0" file="Source/audio/MidiEventList.h"/>
+      <FILE id="brbRcK" name="MidiOut.cpp" compile="1" resource="0" file="Source/audio/MidiOut.cpp"/>
+      <FILE id="fvireM" name="MidiOut.h" compile="0" resource="0" file="Source/audio/MidiOut.h"/>
+      <FILE id="nRM9pt" name="PlaybackSettings.cpp" compile="1" resource="0"
+            file="Source/audio/PlaybackSettings.cpp"/>
+      <FILE id="nyoeyq" name="PlaybackSettings.h" compile="0" resource="0"
+            file="Source/audio/PlaybackSettings.h"/>
+    </GROUP>
+    <GROUP id="{F86088D6-AC80-9D9C-D300-344773AC1620}" name="blocks">
+      <FILE id="pDquRc" name="DynamicsChanger.h" compile="0" resource="0"
+            file="Source/blocks/DynamicsChanger.h"/>
+      <FILE id="bxtixp" name="DynamicsBlock.h" compile="0" resource="0" file="Source/blocks/DynamicsBlock.h"/>
+      <FILE id="tA41Yx" name="Instruments.h" compile="0" resource="0" file="Source/blocks/Instruments.h"/>
+      <FILE id="pXuCnC" name="TempoChanger.h" compile="0" resource="0" file="Source/blocks/TempoChanger.h"/>
+      <FILE id="mKoZ8T" name="BlockSlider.h" compile="0" resource="0" file="Source/blocks/BlockSlider.h"/>
+      <FILE id="goFDGL" name="TempoSetter.h" compile="0" resource="0" file="Source/blocks/TempoSetter.h"/>
+      <FILE id="LUuLbq" name="ClefBlocks.h" compile="0" resource="0" file="Source/blocks/ClefBlocks.h"/>
+      <FILE id="f17pGZ" name="EndRepeat.h" compile="0" resource="0" file="Source/blocks/EndRepeat.h"/>
+      <FILE id="dQ6aHK" name="Blocks.h" compile="0" resource="0" file="Source/blocks/Blocks.h"/>
+      <FILE id="tVyW7g" name="StartRepeat.h" compile="0" resource="0" file="Source/blocks/StartRepeat.h"/>
+      <FILE id="HxuIjq" name="StartBlock.h" compile="0" resource="0" file="Source/blocks/StartBlock.h"/>
+      <FILE id="a2yTKQ" name="BarBlocks.h" compile="0" resource="0" file="Source/blocks/BarBlocks.h"/>
+      <FILE id="OM1a5d" name="CodettaBlockFactory.h" compile="0" resource="0"
+            file="Source/blocks/CodettaBlockFactory.h"/>
+    </GROUP>
+    <GROUP id="{00B44062-4378-9F35-4F16-EA0AF903BF73}" name="gui">
+      <FILE id="EwPFpS" name="BPMWidget.cpp" compile="1" resource="0" file="Source/gui/BPMWidget.cpp"/>
+      <FILE id="pCzQUT" name="BPMWidget.h" compile="0" resource="0" file="Source/gui/BPMWidget.h"/>
+      <FILE id="RhlrwL" name="CodettaViewport.h" compile="0" resource="0"
+            file="Source/gui/CodettaViewport.h"/>
+      <FILE id="ODLjVn" name="InfoBar.cpp" compile="1" resource="0" file="Source/gui/InfoBar.cpp"/>
+      <FILE id="sDTNTU" name="InfoBar.h" compile="0" resource="0" file="Source/gui/InfoBar.h"/>
+      <FILE id="buCvkM" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/gui/MainComponent.cpp"/>
+      <FILE id="gT6amA" name="MainComponent.h" compile="0" resource="0" file="Source/gui/MainComponent.h"/>
+      <FILE id="tP6AGD" name="PlayBackControls.cpp" compile="1" resource="0"
+            file="Source/gui/PlayBackControls.cpp"/>
+      <FILE id="Ti1ESy" name="PlayBackControls.h" compile="0" resource="0"
+            file="Source/gui/PlayBackControls.h"/>
+    </GROUP>
+    <GROUP id="{5CEE2A57-2B83-445D-14F1-EDDEEC79FA6F}" name="media">
+      <FILE id="TsD5pA" name="CodettaLogo2.png" compile="0" resource="1"
+            file="Source/media/CodettaLogo2.png"/>
+      <GROUP id="{FCD29F20-BC6C-9A22-9B11-03E3F0BF765C}" name="instruments">
+        <FILE id="UORSoa" name="acousticGuitar.png" compile="0" resource="1"
+              file="Source/media/instruments/acousticGuitar.png"/>
+        <FILE id="ll66aM" name="altoSax.png" compile="0" resource="1" file="Source/media/instruments/altoSax.png"/>
+        <FILE id="g2Ohvi" name="bassoon.png" compile="0" resource="1" file="Source/media/instruments/bassoon.png"/>
+        <FILE id="cwBepR" name="cello.png" compile="0" resource="1" file="Source/media/instruments/cello.png"/>
+        <FILE id="QPhu1C" name="distortionGuitar.png" compile="0" resource="1"
+              file="Source/media/instruments/distortionGuitar.png"/>
+        <FILE id="hWZWmx" name="electricBass.png" compile="0" resource="1"
+              file="Source/media/instruments/electricBass.png"/>
+        <FILE id="yURIUH" name="flute.png" compile="0" resource="1" file="Source/media/instruments/flute.png"/>
+        <FILE id="MUORc8" name="glockenspiel.png" compile="0" resource="1"
+              file="Source/media/instruments/glockenspiel.png"/>
+        <FILE id="rSpslx" name="pad.png" compile="0" resource="1" file="Source/media/instruments/pad.png"/>
+        <FILE id="WhVH5N" name="piano.png" compile="0" resource="1" file="Source/media/instruments/piano.png"/>
+        <FILE id="osiwmg" name="tenorSax.png" compile="0" resource="1" file="Source/media/instruments/tenorSax.png"/>
+        <FILE id="QiGWJQ" name="trumpet.png" compile="0" resource="1" file="Source/media/instruments/trumpet.png"/>
+        <FILE id="RDwwJv" name="viola.png" compile="0" resource="1" file="Source/media/instruments/viola.png"/>
+        <FILE id="Xiyf9d" name="violin.png" compile="0" resource="1" file="Source/media/instruments/violin.png"/>
+      </GROUP>
+      <FILE id="KNMqu0" name="darkPinkBlock.png" compile="0" resource="1"
+            file="Source/media/darkPinkBlock.png"/>
+      <FILE id="gpnNYD" name="dynamicsChangerIcon.png" compile="0" resource="1"
+            file="Source/media/dynamicsChangerIcon.png"/>
+      <FILE id="stQTyA" name="bassClefBlock.png" compile="0" resource="1"
+            file="Source/media/bassClefBlock.png"/>
+      <FILE id="VA24C5" name="honeydewBlock.png" compile="0" resource="1"
+            file="Source/media/honeydewBlock.png"/>
+      <FILE id="tMdBMF" name="codettaStartBlock.png" compile="0" resource="1"
+            file="Source/media/codettaStartBlock.png"/>
+      <FILE id="Xu5kH3" name="dynamicsBlockIcon.png" compile="0" resource="1"
+            file="Source/media/dynamicsBlockIcon.png"/>
+      <FILE id="I0481G" name="endRepeatBlockIcon.png" compile="0" resource="1"
+            file="Source/media/endRepeatBlockIcon.png"/>
+      <FILE id="bCodtB" name="fiveFourBlock.png" compile="0" resource="1"
+            file="Source/media/fiveFourBlock.png"/>
+      <FILE id="JRPiXr" name="fiveFourBlockIcon.png" compile="0" resource="1"
+            file="Source/media/fiveFourBlockIcon.png"/>
+      <FILE id="OiJJ3u" name="fourFourBlock.png" compile="0" resource="1"
+            file="Source/media/fourFourBlock.png"/>
+      <FILE id="j8bo8Z" name="fourFourBlockIcon.png" compile="0" resource="1"
+            file="Source/media/fourFourBlockIcon.png"/>
+      <FILE id="c8i8Pi" name="functionBlankRed.png" compile="0" resource="1"
+            file="Source/media/functionBlankRed.png"/>
+      <FILE id="hyAGNU" name="globalTempoBlockIcon.png" compile="0" resource="1"
+            file="Source/media/globalTempoBlockIcon.png"/>
+      <FILE id="SGKfN4" name="globe.png" compile="0" resource="1" file="Source/media/globe.png"/>
+      <FILE id="qAGHro" name="orangeBlock.png" compile="0" resource="1" file="Source/media/orangeBlock.png"/>
+      <FILE id="IqDXmP" name="pinkBlock.png" compile="0" resource="1" file="Source/media/pinkBlock.png"/>
+      <FILE id="NHLNEN" name="startRepeatBlock.png" compile="0" resource="1"
+            file="Source/media/startRepeatBlock.png"/>
+      <FILE id="hmcLCY" name="tempoChangerIcon.png" compile="0" resource="1"
+            file="Source/media/tempoChangerIcon.png"/>
+      <FILE id="GMYe6d" name="tempoSetterIcon.png" compile="0" resource="1"
+            file="Source/media/tempoSetterIcon.png"/>
+      <FILE id="HxW8Zp" name="threeFourBlock.png" compile="0" resource="1"
+            file="Source/media/threeFourBlock.png"/>
+      <FILE id="yxCR9W" name="threeFourBlockIcon.png" compile="0" resource="1"
+            file="Source/media/threeFourBlockIcon.png"/>
+      <FILE id="D3ZkIf" name="trebleClefBlock.png" compile="0" resource="1"
+            file="Source/media/trebleClefBlock.png"/>
+      <FILE id="CIpW6U" name="twoFourBlock.png" compile="0" resource="1"
+            file="Source/media/twoFourBlock.png"/>
+      <FILE id="R3jliA" name="twoFourBlockIcon.png" compile="0" resource="1"
+            file="Source/media/twoFourBlockIcon.png"/>
+      <FILE id="qS1LZY" name="yellowBlock.png" compile="0" resource="1" file="Source/media/yellowBlock.png"/>
+    </GROUP>
+    <GROUP id="{AE9B9CA9-394A-C7A5-5FFD-5644B8ECD4BB}" name="Source">
+      <FILE id="NcATrd" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+    </GROUP>
+    <FILE id="LMeQqm" name="CHANGELOG.md" compile="0" resource="1" file="CHANGELOG.md"/>
+    <FILE id="pjlkwb" name="README.md" compile="0" resource="1" file="README.md"/>
+    <FILE id="ZHXMbA" name="REFERENCES.md" compile="0" resource="1" file="REFERENCES.md"/>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX" smallIcon="TsD5pA" bigIcon="TsD5pA">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug"/>
+        <CONFIGURATION isDebug="0" name="Release"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../../../../Librarys/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../../Librarys/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../../Librarys/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../../Librarys/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../../Librarys/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../../../Librarys/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../../../../Librarys/JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="../../../../../Librarys/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../../../../Librarys/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../../../Librarys/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../../../Librarys/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../../../Librarys/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../../../Librarys/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../../../Librarys/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+    <VS2017 targetFolder="Builds/VisualStudio2017" smallIcon="L0uGzo" bigIcon="L0uGzo">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug"/>
+        <CONFIGURATION isDebug="0" name="Release"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_video"/>
+        <MODULEPATH id="juce_opengl"/>
+        <MODULEPATH id="juce_gui_extra"/>
+        <MODULEPATH id="juce_gui_basics"/>
+        <MODULEPATH id="juce_graphics"/>
+        <MODULEPATH id="juce_events"/>
+        <MODULEPATH id="juce_data_structures"/>
+        <MODULEPATH id="juce_cryptography"/>
+        <MODULEPATH id="juce_core"/>
+        <MODULEPATH id="juce_audio_utils"/>
+        <MODULEPATH id="juce_audio_processors"/>
+        <MODULEPATH id="juce_audio_formats"/>
+        <MODULEPATH id="juce_audio_devices"/>
+        <MODULEPATH id="juce_audio_basics"/>
+      </MODULEPATHS>
+    </VS2017>
+    <XCODE_IPHONE targetFolder="Builds/iOS">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug"/>
+        <CONFIGURATION isDebug="0" name="Release"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_video"/>
+        <MODULEPATH id="juce_opengl"/>
+        <MODULEPATH id="juce_gui_extra"/>
+        <MODULEPATH id="juce_gui_basics"/>
+        <MODULEPATH id="juce_graphics"/>
+        <MODULEPATH id="juce_events"/>
+        <MODULEPATH id="juce_data_structures"/>
+        <MODULEPATH id="juce_cryptography"/>
+        <MODULEPATH id="juce_core"/>
+        <MODULEPATH id="juce_audio_utils"/>
+        <MODULEPATH id="juce_audio_processors"/>
+        <MODULEPATH id="juce_audio_formats"/>
+        <MODULEPATH id="juce_audio_devices"/>
+        <MODULEPATH id="juce_audio_basics"/>
+      </MODULEPATHS>
+    </XCODE_IPHONE>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_video" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <LIVE_SETTINGS>
+    <OSX/>
+  </LIVE_SETTINGS>
+  <JUCEOPTIONS/>
+</JUCERPROJECT>

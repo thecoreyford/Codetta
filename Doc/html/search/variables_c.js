@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['name',['name',['../struct__fluid__sample__t.html#a054c9821ce07e9c680331bfc29cf7a1f',1,'_fluid_sample_t::name()'],['../struct___s_f_sample.html#a0589c25094f41ecef751f0a7482f058c',1,'_SFSample::name()'],['../struct___s_f_inst.html#ac4e59433f85621bccc42ca513f2cdc9c',1,'_SFInst::name()'],['../struct___s_f_preset.html#a9bce811f9e012c795f4e079a9f1b5319',1,'_SFPreset::name()'],['../struct___s_f_phdr.html#a2905995d954cc40ab3b5a29cec2d43e5',1,'_SFPhdr::name()'],['../struct___s_f_ihdr.html#a4ecb777a7eba167880083758a26d2406',1,'_SFIhdr::name()'],['../struct___s_f_shdr.html#ab26b0060affda31a0cab172d4caab7c0',1,'_SFShdr::name()'],['../struct__fluid__defpreset__t.html#a3d29b2417eac798a611e514f780e0808',1,'_fluid_defpreset_t::name()'],['../struct__fluid__preset__zone__t.html#a9468bab1815189b07cb98cb636b73240',1,'_fluid_preset_zone_t::name()'],['../struct__fluid__inst__t.html#ab23fbac1313132d2875e9a140f891360',1,'_fluid_inst_t::name()'],['../struct__fluid__inst__zone__t.html#aedd059777859f39c7b0d55c6213d925b',1,'_fluid_inst_zone_t::name()'],['../struct__fluid__ramsfont__t.html#aef9999710d76db25ff24c907ca350cd1',1,'_fluid_ramsfont_t::name()'],['../struct__fluid__rampreset__t.html#a8ce6d30bb670226a2bd7f418c2fe773b',1,'_fluid_rampreset_t::name()'],['../struct__fluid__revmodel__presets__t.html#a0b89b363082788895e1a7c715c871890',1,'_fluid_revmodel_presets_t::name()'],['../struct__fluid__tuning__t.html#a21467840d06372b094d307f9639480da',1,'_fluid_tuning_t::name()']]],
+  ['nbuf',['nbuf',['../struct__fluid__synth__t.html#adc3444a6aecaf997a912b6101ad29f17',1,'_fluid_synth_t']]],
+  ['new_5fdepth_5fms',['new_depth_ms',['../struct__fluid__chorus__t.html#af12a1ba343bcbee489afafc1e67e8436',1,'_fluid_chorus_t']]],
+  ['new_5flevel',['new_level',['../struct__fluid__chorus__t.html#a1acd426544b19c94102d8b5dae8703c8',1,'_fluid_chorus_t']]],
+  ['new_5fnumber_5fblocks',['new_number_blocks',['../struct__fluid__chorus__t.html#a4e9344684444e2d463bddd0fc24f1162',1,'_fluid_chorus_t']]],
+  ['new_5fspeed_5fhz',['new_speed_Hz',['../struct__fluid__chorus__t.html#a18c90e85342f9be4950ee0754f7552f5',1,'_fluid_chorus_t']]],
+  ['new_5ftype',['new_type',['../struct__fluid__chorus__t.html#a5ee8f782bc206c17556f2018e464ad4f',1,'_fluid_chorus_t']]],
+  ['next',['next',['../struct__fluid__mod__t.html#a596143c498657350b1d43cb99a2bc6b0',1,'_fluid_mod_t::next()'],['../struct__fluid__defpreset__t.html#a3e0dabe06dd2004596b5b130075b197d',1,'_fluid_defpreset_t::next()'],['../struct__fluid__preset__zone__t.html#abdcf33554d9679b87d458b2125cbba0f',1,'_fluid_preset_zone_t::next()'],['../struct__fluid__inst__zone__t.html#aec824eaa2863823c9a200059cfa24c98',1,'_fluid_inst_zone_t::next()'],['../struct__fluid__hashnode__t.html#a443bdf37dd7b5dce43c328817355796a',1,'_fluid_hashnode_t::next()'],['../struct__fluid__list__t.html#a60f4bba688688d1ceabba258a96d3625',1,'_fluid_list_t::next()'],['../struct__fluid__midi__event__t.html#a0d5ef7528dfa953132fb2e2471bffac0',1,'_fluid_midi_event_t::next()'],['../struct__fluid__rampreset__t.html#ae30f7d7f179a39650237abbc5bba2da0',1,'_fluid_rampreset_t::next()']]],
+  ['nnodes',['nnodes',['../struct__fluid__hashtable__t.html#a0b7ef625048a710b575ebabef7cbf237',1,'_fluid_hashtable_t']]],
+  ['nodes',['nodes',['../struct__fluid__hashtable__t.html#af081a4263642d0400911b66acdf5de6a',1,'_fluid_hashtable_t']]],
+  ['noteid',['noteid',['../struct__fluid__synth__t.html#a77619d68603d1da8030796a8c6f6325e',1,'_fluid_synth_t']]],
+  ['noteoff_5fticks',['noteoff_ticks',['../struct__fluid__voice__t.html#ae2446c66ce5e78d0bb1b663f5495b122',1,'_fluid_voice_t']]],
+  ['noteon',['noteon',['../struct__fluid__preset__t.html#a5f797efb7e01ba8f963655911b08c546',1,'_fluid_preset_t']]],
+  ['notify',['notify',['../struct__fluid__preset__t.html#a8d7afa59843094f13f69b7845116c081',1,'_fluid_preset_t::notify()'],['../struct__fluid__sample__t.html#ad43c2d0777a885a54e1dd3462ded025e',1,'_fluid_sample_t::notify()']]],
+  ['nrpn',['nrpn',['../struct__fluid__gen__t.html#a27422db6e42b16281b11ebe2faf7bc97',1,'_fluid_gen_t']]],
+  ['nrpn_5factive',['nrpn_active',['../struct__fluid__channel__t.html#ada3d246af94875cfe64abcc9f88ab1ff',1,'_fluid_channel_t']]],
+  ['nrpn_5fscale',['nrpn_scale',['../struct__fluid__gen__info__t.html#a00afe7791c60b323e53cbde04f6d8b97',1,'_fluid_gen_info_t']]],
+  ['nrpn_5fselect',['nrpn_select',['../struct__fluid__channel__t.html#a4ebd5ff95bd1a517b5ec1ce5ca466d14',1,'_fluid_channel_t']]],
+  ['num',['num',['../struct__fluid__defpreset__t.html#a401ae39156d3d4c41a5a76a754495abf',1,'_fluid_defpreset_t::num()'],['../struct__fluid__gen__info__t.html#a9bf766e8ce67f4086ca77a9d44f7e94b',1,'_fluid_gen_info_t::num()'],['../struct__fluid__rampreset__t.html#a1f87bb3a634eb622a3c8f11b06f88708',1,'_fluid_rampreset_t::num()']]],
+  ['num_5fchannels',['num_channels',['../struct__fluid__synth__t.html#ab1440693cf2564281e00c893061d786e',1,'_fluid_synth_t']]],
+  ['number_5fblocks',['number_blocks',['../struct__fluid__chorus__t.html#afbc36eebc1414f97219b6a0f535343e3',1,'_fluid_chorus_t']]],
+  ['nvoice',['nvoice',['../struct__fluid__synth__t.html#a4f14f2ed852384d1d9e0f7848300f9b3',1,'_fluid_synth_t']]]
+];
